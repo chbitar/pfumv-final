@@ -4,7 +4,9 @@
 @import 'node_modules/bootstrap/scss/bootstrap';
 @import '~bootswatch/dist/spacelab/bootswatch';
 body {
-  margin: 0;
+  margin-left: 200px;
+  padding: 1px 16px;
+  height: 1000px;
 }
 
 a {
@@ -316,3 +318,51 @@ http://stackoverflow.com/questions/23436430/bootstrap-3-input-group-100-width */
 }
 
 /* jhipster-needle-scss-add-main JHipster will add new css style */
+
+//custom CSS ADDED -CHT-
+nav.bg-light.navbar.navbar-expand-sm.navbar-light.fixed-top {
+  margin: 0;
+  padding: 0;
+  width: 240px;
+  background: rgb(41, 217, 219);
+  background: linear-gradient(
+    0deg,
+    rgba(41, 217, 219, 1) 5%,
+    rgba(101, 182, 50, 1) 100%,
+    rgba(106, 222, 70, 1) 100%,
+    rgba(253, 187, 45, 1) 100%
+  );
+  position: fixed;
+  height: 100%;
+  overflow: auto;
+  padding-bottom: 340px;
+}
+
+.collapse.navbar-collapse ul {
+  display: block;
+  color: black;
+  padding: 16px;
+  text-decoration: none;
+}
+
+@media screen and (max-width: 660px) {
+  nav.bg-light.navbar.navbar-expand-sm.navbar-light.fixed-top {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+  .collapse.navbar-collapse ul {
+    float: left;
+  }
+  div.content {
+    margin-left: 0;
+  }
+}
+
+/* On screens that are less than 400px, display the bar vertically, instead of horizontally */
+@media screen and (max-width: 240px) {
+  nav.bg-light.navbar.navbar-expand-sm.navbar-light.fixed-top {
+    text-align: center;
+    float: none;
+  }
+}
