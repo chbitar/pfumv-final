@@ -1,0 +1,215 @@
+entity Absence {
+  absent Boolean,
+  dateSeance Instant
+}
+entity AffectationModule {
+  annee String,
+  semestre Semestre
+}
+entity AnneeInscription {
+  annee String
+}
+entity CalendrierModule {
+  dateControlContinu1 Instant,
+  dateControlContinu2 Instant
+}
+entity EtudiantsExecutif {
+  suffixe String required,
+  nom String required,
+  prenom String required,
+  dateNaissance Instant required,
+  adresseContact String required,
+  ville String,
+  email String required,
+  pjBac DiplomeBac,
+  mention Mention,
+  cinPass String required,
+  paysNationalite String,
+  paysResidence String,
+  codepostal String,
+  province String,
+  tel Integer,
+  photo ImageBlob,
+  extraitActeNaissance ImageBlob,
+  bacalaureat ImageBlob,
+  cinPassport ImageBlob,
+  diplome ImageBlob,
+  inscriptionvalide Boolean,
+  absent Boolean
+}
+entity EtudiantsLicence {
+  suffixe String required,
+  nom String required,
+  prenom String required,
+  dateNaissance Instant required,
+  adresseContact String required,
+  ville String,
+  email String required,
+  pjBac DiplomeBac,
+  mention Mention,
+  cinPass String required,
+  paysNationalite String,
+  paysResidence String,
+  codepostal String,
+  province String,
+  tel Integer,
+  photo ImageBlob,
+  extraitActeNaissance ImageBlob,
+  bacalaureat ImageBlob,
+  cinPassport ImageBlob,
+  inscriptionvalide Boolean,
+  absent Boolean
+}
+entity EtudiantsMaster {
+  suffixe String,
+  nom String required,
+  prenom String required,
+  dateNaissance Instant required,
+  adresseContact String required,
+  ville String,
+  email String required,
+  typeBac DiplomeBac,
+  mention Mention,
+  cinPass String required,
+  paysNationalite String,
+  paysResidence String,
+  codepostal String,
+  province String,
+  tel Integer,
+  photo ImageBlob,
+  extraitActeNaissance ImageBlob,
+  bacalaureat ImageBlob,
+  cinPassport ImageBlob,
+  diplome ImageBlob,
+  inscriptionvalide Boolean,
+  absent Boolean
+}
+entity Filiere {
+  nomfiliere String,
+  ecole Ecole,
+  responsable String,
+  accreditaion String,
+  programme Programme,
+  
+}
+entity Module {
+  nomModule String,
+  volumeHoraire Integer,
+  semestre Semestre
+}
+entity Professeur {
+  nom String,
+  prenom String,
+  etablissement String,
+  grade String,
+  diplome String,
+  cin String,
+  rib String,
+  email String
+}
+entity SuiviModule {
+  semestre Semestre,
+  descriptif TextBlob required,
+  observations TextBlob required,
+  date Instant required,
+  debutCreneau Instant required,
+  finCreneau Instant required,
+  duree Integer required
+}
+enum Semestre {
+  S1,
+  S2,
+  S3,
+  S4,
+  S5,
+  S6
+}
+enum DiplomeBac {
+  Sciences_De_La_Vie_Et_De_La_Terre,
+  Sciences_Physiques_Et_Chimiques,
+  Sciences_Economiques,
+  Techniques_De_Gestion_Et_Comptabilite
+}
+enum Mention {
+  Passable,
+  Assez_bien,
+  Bien,
+  Tres_bien
+}
+enum Ecole {
+  OSTELA,
+  ESLSCA
+}
+
+entity Etablissement{
+nomEcole String
+adresse String
+rc String
+ice String
+tp String 
+identiteFiche String
+logo ImageBlob
+}
+enum Programme {
+  LICENCE,
+  MASTER,
+  MASTER_EXECUTIF
+}
+
+enum Devise{
+MAD, USD
+}
+
+entity ModalitePaiement{
+	modalite String,
+    coutProgrammettc Double,
+    coutProgrammettcDevise Double,
+    remiseNiveau1 Integer,
+    remiseNiveau2 Integer,
+    devise Devise
+}
+
+entity EspaceEtudiant{
+	emploiDuTemps ImageBlob 
+}
+
+relationship OneToMany {
+  Module{absence} to Absence{module},
+  EtudiantsLicence{absence} to Absence{etudiantsLicence},
+  EtudiantsMaster{absence} to Absence{etudiantsMaster},
+  EtudiantsExecutif{absence} to Absence{etudiantsExecutif},
+  Module{affectationModule} to AffectationModule{module},
+  Professeur{affectationModule} to AffectationModule{professeur},
+  Module{calendrierModule} to CalendrierModule{module},
+  AnneeInscription{calendrierModule} to CalendrierModule{anneeInscription},
+  ModalitePaiement{etudiantsExecutif} to EtudiantsExecutif{modalitePaiement},
+  Filiere{etudiantsExecutif} to EtudiantsExecutif{filiere},
+  AnneeInscription{etudiantsExecutif} to EtudiantsExecutif{anneeInscription},
+  ModalitePaiement{etudiantsLicence} to EtudiantsLicence{modalitePaiement},
+  Filiere{etudiantsLicence} to EtudiantsLicence{filiere},
+  AnneeInscription{etudiantsLicence} to EtudiantsLicence{anneeInscription},
+  ModalitePaiement{etudiantsMaster} to EtudiantsMaster{modalitePaiement},
+  Filiere{etudiantsMaster} to EtudiantsMaster{filiere},
+  AnneeInscription{etudiantsMaster} to EtudiantsMaster{anneeInscription},
+  Filiere{module} to Module{filiere},
+  Module{suiviModule} to SuiviModule{module}
+  Etablissement to Filiere{etablissement}
+   ModalitePaiement to EtudiantsLicence {modalite}
+   ModalitePaiement to EtudiantsMaster{modalite}
+   ModalitePaiement to EtudiantsExecutif{modalite}
+}
+
+relationship ManyToOne {
+    SuiviModule to User ,
+    Absence to User ,
+}
+relationship OneToOne {
+Professeur to User 
+EtudiantsLicence to User 
+EtudiantsMaster to User 
+EtudiantsExecutif to User
+
+}
+ 
+
+
