@@ -10,11 +10,12 @@ entity AnneeInscription {
   annee String
 }
 entity CalendrierModule {
+  libelle String,
   dateControlContinu1 Instant,
   dateControlContinu2 Instant
 }
 entity EtudiantsExecutif {
-  suffixe String required,
+  suffixe String,
   nom String required,
   prenom String required,
   dateNaissance Instant required,
@@ -86,7 +87,6 @@ entity EtudiantsMaster {
 }
 entity Filiere {
   nomfiliere String,
-  ecole Ecole,
   responsable String,
   accreditaion String,
   programme Programme,
@@ -136,10 +136,6 @@ enum Mention {
   Bien,
   Tres_bien
 }
-enum Ecole {
-  OSTELA,
-  ESLSCA
-}
 
 entity Etablissement{
 nomEcole String
@@ -173,6 +169,41 @@ entity EspaceEtudiant{
 	emploiDuTemps ImageBlob 
 }
 
+entity Annonce{
+	annonce TextBlob,
+    commentaire TextBlob,
+}
+
+entity NoteLicence{
+	semestre Semestre,
+	noteCC1 Double,
+    noteCC2 Double,
+    noteFinal Double,
+    date Instant,
+    
+}
+
+entity NoteMaster{
+	semestre Semestre,
+	noteCC1 Double,
+    noteCC2 Double,
+    noteFinal Double,
+    date Instant,
+    
+}
+
+entity NoteExecutif{
+	semestre Semestre,
+	noteCC1 Double,
+    noteCC2 Double,
+    noteFinal Double,
+    date Instant,
+    
+}
+
+entity TableauDeBoard{
+	tableauDeBoard String
+}
 relationship OneToMany {
   Module{absence} to Absence{module},
   EtudiantsLicence{absence} to Absence{etudiantsLicence},
@@ -182,33 +213,52 @@ relationship OneToMany {
   Professeur{affectationModule} to AffectationModule{professeur},
   Module{calendrierModule} to CalendrierModule{module},
   AnneeInscription{calendrierModule} to CalendrierModule{anneeInscription},
-  ModalitePaiement{etudiantsExecutif} to EtudiantsExecutif{modalitePaiement},
   Filiere{etudiantsExecutif} to EtudiantsExecutif{filiere},
   AnneeInscription{etudiantsExecutif} to EtudiantsExecutif{anneeInscription},
-  ModalitePaiement{etudiantsLicence} to EtudiantsLicence{modalitePaiement},
   Filiere{etudiantsLicence} to EtudiantsLicence{filiere},
   AnneeInscription{etudiantsLicence} to EtudiantsLicence{anneeInscription},
-  ModalitePaiement{etudiantsMaster} to EtudiantsMaster{modalitePaiement},
   Filiere{etudiantsMaster} to EtudiantsMaster{filiere},
   AnneeInscription{etudiantsMaster} to EtudiantsMaster{anneeInscription},
   Filiere{module} to Module{filiere},
   Module{suiviModule} to SuiviModule{module}
   Etablissement to Filiere{etablissement}
-   ModalitePaiement to EtudiantsLicence {modalite}
-   ModalitePaiement to EtudiantsMaster{modalite}
-   ModalitePaiement to EtudiantsExecutif{modalite}
+   //Gestion Modalite paiement
+   ModalitePaiement{etudiantsLicence} to EtudiantsLicence {modalite}
+   ModalitePaiement{etudiantsMaster} to EtudiantsMaster{modalite}
+   ModalitePaiement{etudiantsExecutif} to EtudiantsExecutif{modalite}
+   //Gestion Espace Etudiant
+   EtudiantsLicence to EspaceEtudiant{etudiantLicence}
+   EtudiantsMaster to EspaceEtudiant{etudiantMaster}
+   EtudiantsExecutif to EspaceEtudiant{etudiantExecutif}
+   CalendrierModule to EspaceEtudiant{calendrier}
+   Absence to EspaceEtudiant{absence}
+   Annonce to EspaceEtudiant{annonce}
+  // Gestion des notes
+  Module{noteLicence} to NoteLicence{module}
+   Module{noteMaster} to NoteMaster{module}
+   Module{noteExecutif} to NoteExecutif{module}
+   
 }
 
 relationship ManyToOne {
     SuiviModule to User ,
     Absence to User ,
+    EspaceEtudiant to User,
+    NoteLicence to User,
+    NoteMaster to User,
+    NoteExecutif to User
 }
 relationship OneToOne {
 Professeur to User 
 EtudiantsLicence to User 
 EtudiantsMaster to User 
 EtudiantsExecutif to User
+}
 
+relationship ManyToMany{
+//Tableau de Board
+   TableauDeBoard{filier(nomfiliere)} to Filiere{board}
+   TableauDeBoard{calendrier(libelle)} to CalendrierModule{board} 
 }
  
 
