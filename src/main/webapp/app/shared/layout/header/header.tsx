@@ -10,6 +10,10 @@ import LoadingBar from 'react-redux-loading-bar';
 
 import { Home, Brand } from './header-components';
 import { AdminMenu, EntitiesMenu, AccountMenu, LocaleMenu } from '../menus';
+import { InscriptionsMenu } from 'app/shared/layout/menus/inscriptions';
+import { ScolariteMenu } from 'app/shared/layout/menus/scolarite';
+import { EspaceProfMenu } from 'app/shared/layout/menus/espaceprofesseur';
+import { ConfigurationMenu } from 'app/shared/layout/menus/configuration';
 
 export interface IHeaderProps {
   isAuthenticated: boolean;
@@ -56,14 +60,16 @@ export default class Header extends React.Component<IHeaderProps, IHeaderState> 
 
     return (
       <div id="app-header">
-        {this.renderDevRibbon()}
         <LoadingBar className="loading-bar" />
         <Navbar light expand="sm" fixed="top" className="bg-light">
           <NavbarToggler aria-label="Menu" onClick={this.toggleMenu} />
           <Collapse isOpen={this.state.menuOpen} navbar>
             <Nav id="header-tabs" className="ml-auto" navbar>
               <Home />
-              {isAuthenticated && <EntitiesMenu />}
+              {isAuthenticated && <InscriptionsMenu />}
+              {isAuthenticated && <ScolariteMenu />}
+              {isAuthenticated && <EspaceProfMenu />}
+              {isAuthenticated && <ConfigurationMenu />}
               {isAuthenticated && isAdmin && <AdminMenu showSwagger={isSwaggerEnabled} showDatabase={!isInProduction} />}
               <LocaleMenu currentLocale={currentLocale} onClick={this.handleLocaleChange} />
               <AccountMenu isAuthenticated={isAuthenticated} />

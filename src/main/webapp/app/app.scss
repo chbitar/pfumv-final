@@ -27,7 +27,7 @@ a {
 .app-container {
   box-sizing: border-box;
   .view-container {
-    width: 100%;
+    width: 90%;
     height: calc(100% - 40px);
     overflow-y: auto;
     overflow-x: hidden;
@@ -365,4 +365,90 @@ nav.bg-light.navbar.navbar-expand-sm.navbar-light.fixed-top {
     text-align: center;
     float: none;
   }
+} //================================================
+
+/*Func*/
+
+.multi-level,
+.item ul,
+.nav input[type='checkbox'] {
+  display: none;
+}
+#menu:checked ~ .multi-level,
+.item input:checked ~ ul {
+  display: block;
+}
+
+/*Arrow*/
+
+.arrow {
+  width: 12px;
+  height: 12px;
+  vertical-align: middle;
+  float: left;
+  z-index: 0;
+  margin: 17px 1em 0 2em;
+}
+.item input + .arrow {
+  transform: rotate(-90deg);
+  transition: 0.1s;
+}
+.item input:checked + .arrow {
+  transform: rotate(0deg);
+  transition: 0.1s;
+}
+
+/*Styles*/
+
+label:hover {
+  cursor: pointer;
+}
+label {
+  width: 100%;
+  display: block;
+  z-index: 3;
+  position: relative;
+}
+.nav {
+  width: 100%;
+  background-color: white;
+  overflow-x: hidden;
+  border-bottom: 1px solid #cfd8dc;
+}
+
+#nav-icon {
+  font-size: 28px;
+  line-height: 50px;
+  padding-left: 1em;
+  color: white;
+  background-color: #f44336;
+}
+
+.nav ul,
+.nav li,
+label {
+  line-height: 50px;
+  margin: 0;
+  padding: 0 2em;
+  list-style: none;
+  text-decoration: none;
+  color: #90a4ae;
+  font-weight: 100;
+  width: 100%;
+}
+.item ul {
+  padding: 0 0.25em;
+}
+.nav li a {
+  line-height: 50px;
+  margin: 0;
+  padding: 0 4em;
+  list-style: none;
+  text-decoration: none;
+  color: #90a4ae;
+  font-weight: 100;
+}
+.dropdown-menu-right {
+  right: -10px;
+  left: auto;
 }
