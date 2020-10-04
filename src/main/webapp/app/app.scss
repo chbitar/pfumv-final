@@ -33,7 +33,7 @@ a {
     overflow-x: hidden;
     padding: 1rem;
     .card {
-      padding: 1rem;
+      bapadding: 1rem 1rem 1rem 50px;
     }
     .view-routes {
       height: 100%;
@@ -427,14 +427,15 @@ label {
 .nav ul,
 .nav li,
 label {
-  line-height: 50px;
+  line-height: 25px;
   margin: 0;
   padding: 0 2em;
-  list-style: none;
-  text-decoration: none;
-  color: #90a4ae;
+  list-style: ethiopic-halehame;
+  text-decoration: solid;
+  color: #333;
   font-weight: 100;
   width: 100%;
+  font-weight: bold;
 }
 .item ul {
   padding: 0 0.25em;
@@ -451,4 +452,122 @@ label {
 .dropdown-menu-right {
   right: -10px;
   left: auto;
+}
+
+.col-xl,
+.col-xl-auto,
+.col-xl-12,
+.col-xl-11,
+.col-xl-10,
+.col-xl-9,
+.col-xl-8,
+.col-xl-7,
+.col-xl-6,
+.col-xl-5,
+.col-xl-4,
+.col-xl-3,
+.col-xl-2,
+.col-xl-1,
+.col-lg,
+.col-lg-auto,
+.col-lg-12,
+.col-lg-11,
+.col-lg-10,
+.col-lg-9,
+.col-lg-8,
+.col-lg-7,
+.col-lg-6,
+.col-lg-5,
+.col-lg-4,
+.col-lg-3,
+.col-lg-2,
+.col-lg-1,
+.col-md,
+.col-md-auto,
+.col-md-12,
+.col-md-11,
+.col-md-10,
+.col-md-9,
+.col-md-8,
+.col-md-7,
+.col-md-6,
+.col-md-5,
+.col-md-4,
+.col-md-3,
+.col-md-2,
+.col-md-1,
+.col-sm,
+.col-sm-auto,
+.col-sm-12,
+.col-sm-11,
+.col-sm-10,
+.col-sm-9,
+.col-sm-8,
+.col-sm-7,
+.col-sm-6,
+.col-sm-5,
+.col-sm-4,
+.col-sm-3,
+.col-sm-2,
+.col-sm-1,
+.col,
+.col-auto,
+.col-12,
+.col-11,
+.col-10,
+.col-9,
+.col-8,
+.col-7,
+.col-6,
+.col-5,
+.col-4,
+.col-3,
+.col-2,
+.col-1 {
+  position: relative;
+  width: 100%;
+  padding-right: 11px;
+  padding-left: 89px;
+}
+
+div.card.border-primary {
+  margin: 20px;
+}
+
+div.card-header {
+  background: rgb(200, 248, 249);
+  background: linear-gradient(
+    34deg,
+    rgba(200, 248, 249, 1) 0%,
+    rgba(73, 203, 215, 1) 100%,
+    rgba(253, 187, 45, 1) 100%,
+    rgba(115, 184, 94, 1) 100%
+  );
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.25em 0.4em;
+  font-size: 150%;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: break-spaces;
+  vertical-align: baseline;
+  border-radius: 10.25rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  width: 400px;
+  height: 40px;
+}
+
+badge-info {
+  color: #fff;
+  background-color: #38bcca;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: 8px;
+  margin-left: -15px;
 }

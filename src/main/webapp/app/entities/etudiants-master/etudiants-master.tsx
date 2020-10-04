@@ -8,7 +8,7 @@ import { openFile, byteSize, Translate, translate, ICrudSearchAction, ICrudGetAl
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
-import { getSearchEntities, getEntities } from './etudiants-master.reducer';
+import { getSearchEntities, getEntities, updateEntity } from './etudiants-master.reducer';
 import { IEtudiantsMaster } from 'app/shared/model/etudiants-master.model';
 // tslint:disable-next-line:no-unused-variable
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
@@ -41,6 +41,15 @@ export class EtudiantsMaster extends React.Component<IEtudiantsMasterProps, IEtu
   };
 
   handleSearch = event => this.setState({ search: event.target.value });
+
+  //===========CHT====================================
+  toggleActive = etudiantsMaster => () => {
+    this.props.updateEntity({
+      ...etudiantsMaster,
+      inscriptionvalide: !etudiantsMaster.inscriptionvalide
+    });
+  };
+  //===========CHT====================================
 
   render() {
     const { etudiantsMasterList, match } = this.props;
@@ -82,223 +91,82 @@ export class EtudiantsMaster extends React.Component<IEtudiantsMasterProps, IEtu
             <Table responsive>
               <thead>
                 <tr>
-                  <th>
-                    <Translate contentKey="global.field.id">ID</Translate>
-                  </th>
-                  <th>
-                    <Translate contentKey="pfumv10App.etudiantsMaster.suffixe">Suffixe</Translate>
-                  </th>
+                  <th>N° étudiant</th>
                   <th>
                     <Translate contentKey="pfumv10App.etudiantsMaster.nom">Nom</Translate>
                   </th>
                   <th>
                     <Translate contentKey="pfumv10App.etudiantsMaster.prenom">Prenom</Translate>
                   </th>
-                  <th>
-                    <Translate contentKey="pfumv10App.etudiantsMaster.dateNaissance">Date Naissance</Translate>
-                  </th>
-                  <th>
-                    <Translate contentKey="pfumv10App.etudiantsMaster.adresseContact">Adresse Contact</Translate>
-                  </th>
-                  <th>
-                    <Translate contentKey="pfumv10App.etudiantsMaster.ville">Ville</Translate>
-                  </th>
-                  <th>
-                    <Translate contentKey="pfumv10App.etudiantsMaster.email">Email</Translate>
-                  </th>
-                  <th>
-                    <Translate contentKey="pfumv10App.etudiantsMaster.typeBac">Type Bac</Translate>
-                  </th>
-                  <th>
-                    <Translate contentKey="pfumv10App.etudiantsMaster.mention">Mention</Translate>
-                  </th>
-                  <th>
-                    <Translate contentKey="pfumv10App.etudiantsMaster.cinPass">Cin Pass</Translate>
-                  </th>
-                  <th>
-                    <Translate contentKey="pfumv10App.etudiantsMaster.paysNationalite">Pays Nationalite</Translate>
-                  </th>
-                  <th>
-                    <Translate contentKey="pfumv10App.etudiantsMaster.paysResidence">Pays Residence</Translate>
-                  </th>
-                  <th>
-                    <Translate contentKey="pfumv10App.etudiantsMaster.codepostal">Codepostal</Translate>
-                  </th>
-                  <th>
-                    <Translate contentKey="pfumv10App.etudiantsMaster.province">Province</Translate>
-                  </th>
-                  <th>
-                    <Translate contentKey="pfumv10App.etudiantsMaster.tel">Tel</Translate>
-                  </th>
+
                   <th>
                     <Translate contentKey="pfumv10App.etudiantsMaster.photo">Photo</Translate>
                   </th>
-                  <th>
-                    <Translate contentKey="pfumv10App.etudiantsMaster.extraitActeNaissance">Extrait Acte Naissance</Translate>
-                  </th>
-                  <th>
-                    <Translate contentKey="pfumv10App.etudiantsMaster.bacalaureat">Bacalaureat</Translate>
-                  </th>
-                  <th>
-                    <Translate contentKey="pfumv10App.etudiantsMaster.cinPassport">Cin Passport</Translate>
-                  </th>
-                  <th>
-                    <Translate contentKey="pfumv10App.etudiantsMaster.diplome">Diplome</Translate>
-                  </th>
+
                   <th>
                     <Translate contentKey="pfumv10App.etudiantsMaster.inscriptionvalide">Inscriptionvalide</Translate>
                   </th>
-                  <th>
-                    <Translate contentKey="pfumv10App.etudiantsMaster.absent">Absent</Translate>
-                  </th>
-                  <th>
-                    <Translate contentKey="pfumv10App.etudiantsMaster.user">User</Translate>
-                  </th>
+
                   <th>
                     <Translate contentKey="pfumv10App.etudiantsMaster.filiere">Filiere</Translate>
                   </th>
                   <th>
                     <Translate contentKey="pfumv10App.etudiantsMaster.anneeInscription">Annee Inscription</Translate>
                   </th>
-                  <th>
-                    <Translate contentKey="pfumv10App.etudiantsMaster.modalite">Modalite</Translate>
-                  </th>
+
                   <th />
                 </tr>
               </thead>
               <tbody>
                 {etudiantsMasterList.map((etudiantsMaster, i) => (
                   <tr key={`entity-${i}`}>
-                    <td>
-                      <Button tag={Link} to={`${match.url}/${etudiantsMaster.id}`} color="link" size="sm">
-                        {etudiantsMaster.id}
-                      </Button>
-                    </td>
                     <td>{etudiantsMaster.suffixe}</td>
                     <td>{etudiantsMaster.nom}</td>
                     <td>{etudiantsMaster.prenom}</td>
-                    <td>
-                      <TextFormat type="date" value={etudiantsMaster.dateNaissance} format={APP_DATE_FORMAT} />
-                    </td>
-                    <td>{etudiantsMaster.adresseContact}</td>
-                    <td>{etudiantsMaster.ville}</td>
-                    <td>{etudiantsMaster.email}</td>
-                    <td>
-                      <Translate contentKey={`pfumv10App.DiplomeBac.${etudiantsMaster.typeBac}`} />
-                    </td>
-                    <td>
-                      <Translate contentKey={`pfumv10App.Mention.${etudiantsMaster.mention}`} />
-                    </td>
-                    <td>{etudiantsMaster.cinPass}</td>
-                    <td>{etudiantsMaster.paysNationalite}</td>
-                    <td>{etudiantsMaster.paysResidence}</td>
-                    <td>{etudiantsMaster.codepostal}</td>
-                    <td>{etudiantsMaster.province}</td>
-                    <td>{etudiantsMaster.tel}</td>
+
                     <td>
                       {etudiantsMaster.photo ? (
                         <div>
                           <a onClick={openFile(etudiantsMaster.photoContentType, etudiantsMaster.photo)}>
                             <img
                               src={`data:${etudiantsMaster.photoContentType};base64,${etudiantsMaster.photo}`}
-                              style={{ maxHeight: '30px' }}
+                              style={{ maxHeight: '70px' }}
                             />
                             &nbsp;
                           </a>
-                          <span>
-                            {etudiantsMaster.photoContentType}, {byteSize(etudiantsMaster.photo)}
-                          </span>
                         </div>
                       ) : null}
                     </td>
+
                     <td>
-                      {etudiantsMaster.extraitActeNaissance ? (
-                        <div>
-                          <a onClick={openFile(etudiantsMaster.extraitActeNaissanceContentType, etudiantsMaster.extraitActeNaissance)}>
-                            <img
-                              src={`data:${etudiantsMaster.extraitActeNaissanceContentType};base64,${etudiantsMaster.extraitActeNaissance}`}
-                              style={{ maxHeight: '30px' }}
-                            />
-                            &nbsp;
-                          </a>
-                          <span>
-                            {etudiantsMaster.extraitActeNaissanceContentType}, {byteSize(etudiantsMaster.extraitActeNaissance)}
-                          </span>
-                        </div>
-                      ) : null}
+                      {etudiantsMaster.inscriptionvalide ? (
+                        <Button color="success" onClick={this.toggleActive(etudiantsMaster)}>
+                          Validé
+                        </Button>
+                      ) : (
+                        <Button color="danger" onClick={this.toggleActive(etudiantsMaster)}>
+                          En attente
+                        </Button>
+                      )}
                     </td>
-                    <td>
-                      {etudiantsMaster.bacalaureat ? (
-                        <div>
-                          <a onClick={openFile(etudiantsMaster.bacalaureatContentType, etudiantsMaster.bacalaureat)}>
-                            <img
-                              src={`data:${etudiantsMaster.bacalaureatContentType};base64,${etudiantsMaster.bacalaureat}`}
-                              style={{ maxHeight: '30px' }}
-                            />
-                            &nbsp;
-                          </a>
-                          <span>
-                            {etudiantsMaster.bacalaureatContentType}, {byteSize(etudiantsMaster.bacalaureat)}
-                          </span>
-                        </div>
-                      ) : null}
-                    </td>
-                    <td>
-                      {etudiantsMaster.cinPassport ? (
-                        <div>
-                          <a onClick={openFile(etudiantsMaster.cinPassportContentType, etudiantsMaster.cinPassport)}>
-                            <img
-                              src={`data:${etudiantsMaster.cinPassportContentType};base64,${etudiantsMaster.cinPassport}`}
-                              style={{ maxHeight: '30px' }}
-                            />
-                            &nbsp;
-                          </a>
-                          <span>
-                            {etudiantsMaster.cinPassportContentType}, {byteSize(etudiantsMaster.cinPassport)}
-                          </span>
-                        </div>
-                      ) : null}
-                    </td>
-                    <td>
-                      {etudiantsMaster.diplome ? (
-                        <div>
-                          <a onClick={openFile(etudiantsMaster.diplomeContentType, etudiantsMaster.diplome)}>
-                            <img
-                              src={`data:${etudiantsMaster.diplomeContentType};base64,${etudiantsMaster.diplome}`}
-                              style={{ maxHeight: '30px' }}
-                            />
-                            &nbsp;
-                          </a>
-                          <span>
-                            {etudiantsMaster.diplomeContentType}, {byteSize(etudiantsMaster.diplome)}
-                          </span>
-                        </div>
-                      ) : null}
-                    </td>
-                    <td>{etudiantsMaster.inscriptionvalide ? 'true' : 'false'}</td>
-                    <td>{etudiantsMaster.absent ? 'true' : 'false'}</td>
-                    <td>{etudiantsMaster.user ? etudiantsMaster.user.id : ''}</td>
+
                     <td>
                       {etudiantsMaster.filiere ? (
-                        <Link to={`filiere/${etudiantsMaster.filiere.id}`}>{etudiantsMaster.filiere.id}</Link>
+                        <Link to={`filiere/${etudiantsMaster.filiere.id}`}>{etudiantsMaster.filiere.nomfiliere}</Link>
                       ) : (
                         ''
                       )}
                     </td>
                     <td>
                       {etudiantsMaster.anneeInscription ? (
-                        <Link to={`annee-inscription/${etudiantsMaster.anneeInscription.id}`}>{etudiantsMaster.anneeInscription.id}</Link>
+                        <Link to={`annee-inscription/${etudiantsMaster.anneeInscription.id}`}>
+                          {etudiantsMaster.anneeInscription.annee}
+                        </Link>
                       ) : (
                         ''
                       )}
                     </td>
-                    <td>
-                      {etudiantsMaster.modalite ? (
-                        <Link to={`modalite-paiement/${etudiantsMaster.modalite.id}`}>{etudiantsMaster.modalite.id}</Link>
-                      ) : (
-                        ''
-                      )}
-                    </td>
+
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">
                         <Button tag={Link} to={`${match.url}/${etudiantsMaster.id}`} color="info" size="sm">
@@ -342,7 +210,8 @@ const mapStateToProps = ({ etudiantsMaster }: IRootState) => ({
 
 const mapDispatchToProps = {
   getSearchEntities,
-  getEntities
+  getEntities,
+  updateEntity
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

@@ -8,7 +8,7 @@ import { openFile, byteSize, Translate, translate, ICrudSearchAction, ICrudGetAl
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
-import { getSearchEntities, getEntities } from './etudiants-licence.reducer';
+import { getSearchEntities, getEntities, updateEntity } from './etudiants-licence.reducer';
 import { IEtudiantsLicence } from 'app/shared/model/etudiants-licence.model';
 // tslint:disable-next-line:no-unused-variable
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
@@ -41,6 +41,15 @@ export class EtudiantsLicence extends React.Component<IEtudiantsLicenceProps, IE
   };
 
   handleSearch = event => this.setState({ search: event.target.value });
+
+  //===========CHT====================================
+  toggleActive = etudiantsExecutif => () => {
+    this.props.updateEntity({
+      ...etudiantsExecutif,
+      inscriptionvalide: !etudiantsExecutif.inscriptionvalide
+    });
+  };
+  //===========CHT====================================
 
   render() {
     const { etudiantsLicenceList, match } = this.props;
@@ -82,206 +91,76 @@ export class EtudiantsLicence extends React.Component<IEtudiantsLicenceProps, IE
             <Table responsive>
               <thead>
                 <tr>
-                  <th>
-                    <Translate contentKey="global.field.id">ID</Translate>
-                  </th>
-                  <th>
-                    <Translate contentKey="pfumv10App.etudiantsLicence.suffixe">Suffixe</Translate>
-                  </th>
+                  <th>N° etudiant</th>
                   <th>
                     <Translate contentKey="pfumv10App.etudiantsLicence.nom">Nom</Translate>
                   </th>
                   <th>
                     <Translate contentKey="pfumv10App.etudiantsLicence.prenom">Prenom</Translate>
                   </th>
-                  <th>
-                    <Translate contentKey="pfumv10App.etudiantsLicence.dateNaissance">Date Naissance</Translate>
-                  </th>
-                  <th>
-                    <Translate contentKey="pfumv10App.etudiantsLicence.adresseContact">Adresse Contact</Translate>
-                  </th>
-                  <th>
-                    <Translate contentKey="pfumv10App.etudiantsLicence.ville">Ville</Translate>
-                  </th>
-                  <th>
-                    <Translate contentKey="pfumv10App.etudiantsLicence.email">Email</Translate>
-                  </th>
-                  <th>
-                    <Translate contentKey="pfumv10App.etudiantsLicence.pjBac">Pj Bac</Translate>
-                  </th>
-                  <th>
-                    <Translate contentKey="pfumv10App.etudiantsLicence.mention">Mention</Translate>
-                  </th>
-                  <th>
-                    <Translate contentKey="pfumv10App.etudiantsLicence.cinPass">Cin Pass</Translate>
-                  </th>
-                  <th>
-                    <Translate contentKey="pfumv10App.etudiantsLicence.paysNationalite">Pays Nationalite</Translate>
-                  </th>
-                  <th>
-                    <Translate contentKey="pfumv10App.etudiantsLicence.paysResidence">Pays Residence</Translate>
-                  </th>
-                  <th>
-                    <Translate contentKey="pfumv10App.etudiantsLicence.codepostal">Codepostal</Translate>
-                  </th>
-                  <th>
-                    <Translate contentKey="pfumv10App.etudiantsLicence.province">Province</Translate>
-                  </th>
-                  <th>
-                    <Translate contentKey="pfumv10App.etudiantsLicence.tel">Tel</Translate>
-                  </th>
+
                   <th>
                     <Translate contentKey="pfumv10App.etudiantsLicence.photo">Photo</Translate>
                   </th>
-                  <th>
-                    <Translate contentKey="pfumv10App.etudiantsLicence.extraitActeNaissance">Extrait Acte Naissance</Translate>
-                  </th>
-                  <th>
-                    <Translate contentKey="pfumv10App.etudiantsLicence.bacalaureat">Bacalaureat</Translate>
-                  </th>
-                  <th>
-                    <Translate contentKey="pfumv10App.etudiantsLicence.cinPassport">Cin Passport</Translate>
-                  </th>
-                  <th>
-                    <Translate contentKey="pfumv10App.etudiantsLicence.inscriptionvalide">Inscriptionvalide</Translate>
-                  </th>
-                  <th>
-                    <Translate contentKey="pfumv10App.etudiantsLicence.absent">Absent</Translate>
-                  </th>
-                  <th>
-                    <Translate contentKey="pfumv10App.etudiantsLicence.user">User</Translate>
-                  </th>
+
+                  <th>Validité</th>
+
                   <th>
                     <Translate contentKey="pfumv10App.etudiantsLicence.filiere">Filiere</Translate>
                   </th>
-                  <th>
-                    <Translate contentKey="pfumv10App.etudiantsLicence.anneeInscription">Annee Inscription</Translate>
-                  </th>
-                  <th>
-                    <Translate contentKey="pfumv10App.etudiantsLicence.modalite">Modalite</Translate>
-                  </th>
+                  <th>Année scolaire</th>
+
                   <th />
                 </tr>
               </thead>
               <tbody>
                 {etudiantsLicenceList.map((etudiantsLicence, i) => (
                   <tr key={`entity-${i}`}>
-                    <td>
-                      <Button tag={Link} to={`${match.url}/${etudiantsLicence.id}`} color="link" size="sm">
-                        {etudiantsLicence.id}
-                      </Button>
-                    </td>
                     <td>{etudiantsLicence.suffixe}</td>
                     <td>{etudiantsLicence.nom}</td>
                     <td>{etudiantsLicence.prenom}</td>
-                    <td>
-                      <TextFormat type="date" value={etudiantsLicence.dateNaissance} format={APP_DATE_FORMAT} />
-                    </td>
-                    <td>{etudiantsLicence.adresseContact}</td>
-                    <td>{etudiantsLicence.ville}</td>
-                    <td>{etudiantsLicence.email}</td>
-                    <td>
-                      <Translate contentKey={`pfumv10App.DiplomeBac.${etudiantsLicence.pjBac}`} />
-                    </td>
-                    <td>
-                      <Translate contentKey={`pfumv10App.Mention.${etudiantsLicence.mention}`} />
-                    </td>
-                    <td>{etudiantsLicence.cinPass}</td>
-                    <td>{etudiantsLicence.paysNationalite}</td>
-                    <td>{etudiantsLicence.paysResidence}</td>
-                    <td>{etudiantsLicence.codepostal}</td>
-                    <td>{etudiantsLicence.province}</td>
-                    <td>{etudiantsLicence.tel}</td>
                     <td>
                       {etudiantsLicence.photo ? (
                         <div>
                           <a onClick={openFile(etudiantsLicence.photoContentType, etudiantsLicence.photo)}>
                             <img
                               src={`data:${etudiantsLicence.photoContentType};base64,${etudiantsLicence.photo}`}
-                              style={{ maxHeight: '30px' }}
+                              style={{ maxHeight: '70px' }}
                             />
                             &nbsp;
                           </a>
-                          <span>
-                            {etudiantsLicence.photoContentType}, {byteSize(etudiantsLicence.photo)}
-                          </span>
                         </div>
                       ) : null}
                     </td>
                     <td>
-                      {etudiantsLicence.extraitActeNaissance ? (
-                        <div>
-                          <a onClick={openFile(etudiantsLicence.extraitActeNaissanceContentType, etudiantsLicence.extraitActeNaissance)}>
-                            <img
-                              src={`data:${etudiantsLicence.extraitActeNaissanceContentType};base64,${
-                                etudiantsLicence.extraitActeNaissance
-                              }`}
-                              style={{ maxHeight: '30px' }}
-                            />
-                            &nbsp;
-                          </a>
-                          <span>
-                            {etudiantsLicence.extraitActeNaissanceContentType}, {byteSize(etudiantsLicence.extraitActeNaissance)}
-                          </span>
-                        </div>
-                      ) : null}
+                      {etudiantsLicence.inscriptionvalide ? (
+                        <Button color="success" onClick={this.toggleActive(etudiantsLicence)}>
+                          Validé
+                        </Button>
+                      ) : (
+                        <Button color="danger" onClick={this.toggleActive(etudiantsLicence)}>
+                          En attente
+                        </Button>
+                      )}
                     </td>
-                    <td>
-                      {etudiantsLicence.bacalaureat ? (
-                        <div>
-                          <a onClick={openFile(etudiantsLicence.bacalaureatContentType, etudiantsLicence.bacalaureat)}>
-                            <img
-                              src={`data:${etudiantsLicence.bacalaureatContentType};base64,${etudiantsLicence.bacalaureat}`}
-                              style={{ maxHeight: '30px' }}
-                            />
-                            &nbsp;
-                          </a>
-                          <span>
-                            {etudiantsLicence.bacalaureatContentType}, {byteSize(etudiantsLicence.bacalaureat)}
-                          </span>
-                        </div>
-                      ) : null}
-                    </td>
-                    <td>
-                      {etudiantsLicence.cinPassport ? (
-                        <div>
-                          <a onClick={openFile(etudiantsLicence.cinPassportContentType, etudiantsLicence.cinPassport)}>
-                            <img
-                              src={`data:${etudiantsLicence.cinPassportContentType};base64,${etudiantsLicence.cinPassport}`}
-                              style={{ maxHeight: '30px' }}
-                            />
-                            &nbsp;
-                          </a>
-                          <span>
-                            {etudiantsLicence.cinPassportContentType}, {byteSize(etudiantsLicence.cinPassport)}
-                          </span>
-                        </div>
-                      ) : null}
-                    </td>
-                    <td>{etudiantsLicence.inscriptionvalide ? 'true' : 'false'}</td>
-                    <td>{etudiantsLicence.absent ? 'true' : 'false'}</td>
-                    <td>{etudiantsLicence.user ? etudiantsLicence.user.id : ''}</td>
+
                     <td>
                       {etudiantsLicence.filiere ? (
-                        <Link to={`filiere/${etudiantsLicence.filiere.id}`}>{etudiantsLicence.filiere.id}</Link>
+                        <Link to={`filiere/${etudiantsLicence.filiere.id}`}>{etudiantsLicence.filiere.nomfiliere}</Link>
                       ) : (
                         ''
                       )}
                     </td>
                     <td>
                       {etudiantsLicence.anneeInscription ? (
-                        <Link to={`annee-inscription/${etudiantsLicence.anneeInscription.id}`}>{etudiantsLicence.anneeInscription.id}</Link>
+                        <Link to={`annee-inscription/${etudiantsLicence.anneeInscription.id}`}>
+                          {etudiantsLicence.anneeInscription.annee}
+                        </Link>
                       ) : (
                         ''
                       )}
                     </td>
-                    <td>
-                      {etudiantsLicence.modalite ? (
-                        <Link to={`modalite-paiement/${etudiantsLicence.modalite.id}`}>{etudiantsLicence.modalite.id}</Link>
-                      ) : (
-                        ''
-                      )}
-                    </td>
+
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">
                         <Button tag={Link} to={`${match.url}/${etudiantsLicence.id}`} color="info" size="sm">
@@ -325,7 +204,8 @@ const mapStateToProps = ({ etudiantsLicence }: IRootState) => ({
 
 const mapDispatchToProps = {
   getSearchEntities,
-  getEntities
+  getEntities,
+  updateEntity
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

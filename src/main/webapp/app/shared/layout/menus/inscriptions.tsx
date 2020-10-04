@@ -17,7 +17,7 @@ export const InscriptionsMenu = props => (
       Recherche étudiant
     </MenuItem>
     <MenuItem icon="asterisk" to="/entity/etudiants-licence">
-      Liste des étudiants
+      Etats
     </MenuItem>
     <Alert variant="success">Master</Alert>
     <MenuItem icon="asterisk" to="/entity/etudiants-master/new">
@@ -27,7 +27,7 @@ export const InscriptionsMenu = props => (
       Recherche étudiant
     </MenuItem>
     <MenuItem icon="asterisk" to="/entity/etudiants-master">
-      Liste étudiants
+      Etats
     </MenuItem>
     <Alert variant="warning">Master executif</Alert>
     <MenuItem icon="asterisk" to="/entity/etudiants-executif/new">
@@ -37,7 +37,7 @@ export const InscriptionsMenu = props => (
       Recherche étudiant
     </MenuItem>
     <MenuItem icon="asterisk" to="/entity/etudiants-executif">
-      Liste étudiant
+      Etats
     </MenuItem>
   </NavDropdown>
 );
