@@ -4,6 +4,8 @@ import com.planeta.pfum.domain.Professeur;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 
 /**
  * Spring Data  repository for the Professeur entity.
@@ -12,4 +14,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ProfesseurRepository extends JpaRepository<Professeur, Long> {
 
+    Optional<Professeur> findOneByUserId(Long id);
 }

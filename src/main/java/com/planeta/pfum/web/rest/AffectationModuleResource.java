@@ -1,6 +1,7 @@
 package com.planeta.pfum.web.rest;
 
 import com.planeta.pfum.domain.AffectationModule;
+import com.planeta.pfum.domain.enumeration.Semestre;
 import com.planeta.pfum.repository.AffectationModuleRepository;
 import com.planeta.pfum.repository.search.AffectationModuleSearchRepository;
 import com.planeta.pfum.web.rest.errors.BadRequestAlertException;
@@ -139,6 +140,12 @@ public class AffectationModuleResource {
         return StreamSupport
             .stream(affectationModuleSearchRepository.search(queryStringQuery(query)).spliterator(), false)
             .collect(Collectors.toList());
+    }
+
+    @GetMapping("/affectation-modules/semestre/{sem}")
+    public List<AffectationModule> getAllAffectaionModulesBySemestre(@PathVariable Semestre sem) {
+        log.debug("REST request to get all AffectaionModules");
+        return affectationModuleRepository.findAllBySemestre(sem);
     }
 
 }

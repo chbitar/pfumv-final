@@ -109,6 +109,11 @@ export const getSearchEntities: ICrudSearchAction<IProfesseur> = (query, page, s
   payload: axios.get<IProfesseur>(`${apiSearchUrl}?query=${query}`)
 });
 
+//export const getEntities: ICrudGetAllAction<IProfesseur> = (page, size, sort) => ({
+//  type: ACTION_TYPES.FETCH_PROFESSEUR_LIST,
+//  payload: axios.get<IProfesseur>(`${apiUrl}?cacheBuster=${new Date().getTime()}`)
+//});
+
 export const getEntities: ICrudGetAllAction<IProfesseur> = (page, size, sort) => ({
   type: ACTION_TYPES.FETCH_PROFESSEUR_LIST,
   payload: axios.get<IProfesseur>(`${apiUrl}?cacheBuster=${new Date().getTime()}`)

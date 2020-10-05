@@ -1,7 +1,10 @@
 package com.planeta.pfum.web.rest;
 
+import com.planeta.pfum.domain.Etablissement;
 import com.planeta.pfum.domain.EtudiantsExecutif;
+import com.planeta.pfum.domain.Filiere;
 import com.planeta.pfum.repository.EtudiantsExecutifRepository;
+import com.planeta.pfum.repository.FiliereRepository;
 import com.planeta.pfum.repository.search.EtudiantsExecutifSearchRepository;
 import com.planeta.pfum.web.rest.errors.BadRequestAlertException;
 
@@ -42,9 +45,12 @@ public class EtudiantsExecutifResource {
 
     private final EtudiantsExecutifSearchRepository etudiantsExecutifSearchRepository;
 
-    public EtudiantsExecutifResource(EtudiantsExecutifRepository etudiantsExecutifRepository, EtudiantsExecutifSearchRepository etudiantsExecutifSearchRepository) {
+    private final FiliereRepository filiereRepository;
+
+    public EtudiantsExecutifResource(EtudiantsExecutifRepository etudiantsExecutifRepository, EtudiantsExecutifSearchRepository etudiantsExecutifSearchRepository, FiliereRepository filiereRepository) {
         this.etudiantsExecutifRepository = etudiantsExecutifRepository;
         this.etudiantsExecutifSearchRepository = etudiantsExecutifSearchRepository;
+        this.filiereRepository = filiereRepository;
     }
 
     /**
@@ -59,8 +65,30 @@ public class EtudiantsExecutifResource {
         log.debug("REST request to save EtudiantsExecutif : {}", etudiantsExecutif);
         if (etudiantsExecutif.getId() != null) {
             throw new BadRequestAlertException("A new etudiantsExecutif cannot already have an ID", ENTITY_NAME, "idexists");
-        }
+       }
         EtudiantsExecutif result = etudiantsExecutifRepository.save(etudiantsExecutif);
+
+        // formatage code etudiant
+        Filiere filiere=  filiereRepository.findById(etudiantsExecutif.getFiliere().getId()).get();
+        String ecole = filiere.getEtablissement().getNomEcole();
+
+        String suffixe = "ES20";
+
+        switch (ecole) {
+            case "ESLSCA":
+                suffixe = "ES20" + result.getId();
+                break;
+
+            case "OSTELEA":
+                suffixe = "OS20" + result.getId();
+                break;
+            default:
+                break;
+        }
+        result.setSuffixe(suffixe);
+
+        etudiantsExecutifRepository.save(etudiantsExecutif);
+       //
         etudiantsExecutifSearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/etudiants-executifs/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))

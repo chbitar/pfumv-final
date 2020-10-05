@@ -1,6 +1,7 @@
 package com.planeta.pfum.web.rest;
 
 import com.planeta.pfum.domain.Module;
+import com.planeta.pfum.domain.enumeration.Semestre;
 import com.planeta.pfum.repository.ModuleRepository;
 import com.planeta.pfum.repository.search.ModuleSearchRepository;
 import com.planeta.pfum.web.rest.errors.BadRequestAlertException;
@@ -140,5 +141,13 @@ public class ModuleResource {
             .stream(moduleSearchRepository.search(queryStringQuery(query)).spliterator(), false)
             .collect(Collectors.toList());
     }
+
+//JG
+    @GetMapping("/modules/semestre/{sem}")
+    public List<Module> getModulesBySemestre(@PathVariable Semestre sem) {
+        log.debug("REST request to get Modules : {}", sem);
+        return moduleRepository.findAllBySemestre(sem);
+    }
+//JG
 
 }

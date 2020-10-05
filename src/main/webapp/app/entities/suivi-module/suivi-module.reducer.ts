@@ -161,6 +161,16 @@ export const deleteEntity: ICrudDeleteAction<ISuiviModule> = id => async dispatc
   return result;
 };
 
+//JG
+export const getEntitiesAffectedToProf: ICrudGetAllAction<ISuiviModule> = () => {
+  const requestUrl = `${apiUrl}/professeur`;
+  return {
+    type: ACTION_TYPES.FETCH_SUIVIMODULE_LIST,
+    payload: axios.get<ISuiviModule>(requestUrl)
+  };
+};
+//JG
+
 export const setBlob = (name, data, contentType?) => ({
   type: ACTION_TYPES.SET_BLOB,
   payload: {

@@ -1,7 +1,9 @@
 package com.planeta.pfum.web.rest;
 
 import com.planeta.pfum.domain.EtudiantsMaster;
+import com.planeta.pfum.domain.Filiere;
 import com.planeta.pfum.repository.EtudiantsMasterRepository;
+import com.planeta.pfum.repository.FiliereRepository;
 import com.planeta.pfum.repository.search.EtudiantsMasterSearchRepository;
 import com.planeta.pfum.web.rest.errors.BadRequestAlertException;
 
@@ -42,9 +44,12 @@ public class EtudiantsMasterResource {
 
     private final EtudiantsMasterSearchRepository etudiantsMasterSearchRepository;
 
-    public EtudiantsMasterResource(EtudiantsMasterRepository etudiantsMasterRepository, EtudiantsMasterSearchRepository etudiantsMasterSearchRepository) {
+    private final FiliereRepository filiereRepository;
+
+    public EtudiantsMasterResource(EtudiantsMasterRepository etudiantsMasterRepository, EtudiantsMasterSearchRepository etudiantsMasterSearchRepository, FiliereRepository filiereRepository) {
         this.etudiantsMasterRepository = etudiantsMasterRepository;
         this.etudiantsMasterSearchRepository = etudiantsMasterSearchRepository;
+        this.filiereRepository = filiereRepository;
     }
 
     /**
@@ -61,6 +66,28 @@ public class EtudiantsMasterResource {
             throw new BadRequestAlertException("A new etudiantsMaster cannot already have an ID", ENTITY_NAME, "idexists");
         }
         EtudiantsMaster result = etudiantsMasterRepository.save(etudiantsMaster);
+
+        // formatage code etudiant
+        Filiere filiere = filiereRepository.findById(etudiantsMaster.getFiliere().getId()).get();
+        String ecole = filiere.getEtablissement().getNomEcole();
+
+        String suffixe = "ES20";
+
+        switch (ecole) {
+            case "ESLSCA":
+                suffixe = "ES20" + result.getId();
+                break;
+
+            case "OSTELEA":
+                suffixe = "OS20" + result.getId();
+                break;
+            default:
+                break;
+        }
+        result.setSuffixe(suffixe);
+
+        etudiantsMasterRepository.save(etudiantsMaster);
+        //
         etudiantsMasterSearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/etudiants-masters/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))

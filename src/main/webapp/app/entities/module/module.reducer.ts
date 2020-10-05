@@ -150,6 +150,25 @@ export const deleteEntity: ICrudDeleteAction<IModule> = id => async dispatch => 
   return result;
 };
 
+//JG
+export const getEntitiesBySemestre: ICrudSearchAction<IModule> = sem => {
+  const requestUrl = `${apiUrl}/semestre/${sem}`;
+  return {
+    type: ACTION_TYPES.FETCH_MODULE_LIST,
+    payload: axios.get<IModule>(requestUrl)
+  };
+};
+
+export const getEntitiesAffectedToProf: ICrudSearchAction<IModule> = sem => {
+  const requestUrl = `${apiUrl}/professeur/${sem}`;
+  return {
+    type: ACTION_TYPES.FETCH_MODULE_LIST,
+    payload: axios.get<IModule>(requestUrl)
+  };
+};
+
+//JG
+
 export const reset = () => ({
   type: ACTION_TYPES.RESET
 });

@@ -2,6 +2,7 @@ package com.planeta.pfum.service;
 
 import com.planeta.pfum.config.Constants;
 import com.planeta.pfum.domain.Authority;
+import com.planeta.pfum.domain.Professeur;
 import com.planeta.pfum.domain.User;
 import com.planeta.pfum.repository.AuthorityRepository;
 import com.planeta.pfum.repository.UserRepository;
@@ -303,5 +304,28 @@ public class UserService {
     private void clearUserCaches(User user) {
         Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE)).evict(user.getLogin());
         Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE)).evict(user.getEmail());
+    }
+
+    public User createUserForProfreur(Professeur p) {
+        User user = new User();
+        user.setLogin(p.getEmail());
+        user.setFirstName(p.getNom());
+        user.setLastName(p.getPrenom());
+       // StringBuilder mail=new StringBuilder(p.getNomPrenom());
+       // mail.append("@mail.com");
+        user.setEmail(p.getEmail());
+        user.setLangKey(Constants.DEFAULT_LANGUAGE); // default language
+        String encryptedPassword = passwordEncoder.encode("123456");
+        user.setPassword(encryptedPassword);
+        user.setResetKey(RandomUtil.generateResetKey());
+        user.setResetDate(Instant.now());
+        user.setActivated(true);
+        Set<Authority> authorities = new HashSet<>();
+        authorityRepository.findById(AuthoritiesConstants.PROF).ifPresent(authorities::add);
+        user.setAuthorities(authorities);
+        userRepository.save(user);
+        this.clearUserCaches(user);
+        log.debug("Created Information for User: {}", user);
+        return user;
     }
 }

@@ -1,8 +1,17 @@
 package com.planeta.pfum.web.rest;
 
+import com.planeta.pfum.domain.AffectationModule;
+import com.planeta.pfum.domain.Module;
+import com.planeta.pfum.domain.Professeur;
 import com.planeta.pfum.domain.SuiviModule;
+import com.planeta.pfum.domain.User;
+import com.planeta.pfum.domain.enumeration.Semestre;
+import com.planeta.pfum.repository.AffectationModuleRepository;
+import com.planeta.pfum.repository.ProfesseurRepository;
 import com.planeta.pfum.repository.SuiviModuleRepository;
+import com.planeta.pfum.repository.UserRepository;
 import com.planeta.pfum.repository.search.SuiviModuleSearchRepository;
+import com.planeta.pfum.security.SecurityUtils;
 import com.planeta.pfum.web.rest.errors.BadRequestAlertException;
 
 import io.github.jhipster.web.util.HeaderUtil;
@@ -17,6 +26,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -42,9 +52,23 @@ public class SuiviModuleResource {
 
     private final SuiviModuleSearchRepository suiviModuleSearchRepository;
 
-    public SuiviModuleResource(SuiviModuleRepository suiviModuleRepository, SuiviModuleSearchRepository suiviModuleSearchRepository) {
+    //JG
+
+
+    private final ProfesseurRepository professeurRepository;
+
+    private final UserRepository userRepository;
+
+
+    private final AffectationModuleRepository affectationModuleRepository;
+    //JG
+
+    public SuiviModuleResource(SuiviModuleRepository suiviModuleRepository, SuiviModuleSearchRepository suiviModuleSearchRepository, ProfesseurRepository professeurRepository, UserRepository userRepository, AffectationModuleRepository affectationModuleRepository) {
         this.suiviModuleRepository = suiviModuleRepository;
         this.suiviModuleSearchRepository = suiviModuleSearchRepository;
+        this.professeurRepository = professeurRepository;
+        this.userRepository = userRepository;
+        this.affectationModuleRepository = affectationModuleRepository;
     }
 
     /**
@@ -141,5 +165,43 @@ public class SuiviModuleResource {
             .stream(suiviModuleSearchRepository.search(queryStringQuery(query)).spliterator(), false)
             .collect(Collectors.toList());
     }
+
+    //JG
+    @GetMapping("/suivi-modules/professeur")
+    public List<SuiviModule> getAllSuiviModulesAffectedToProfsseur() {
+        log.debug("REST request to get all SuiviModules By professeurs");
+
+
+        Optional<User> user= userRepository.findOneByLogin( SecurityUtils.getCurrentUserLogin().get());
+
+
+        Optional<Professeur> p =professeurRepository.findOneByUserId(user.get().getId());
+        List<AffectationModule> afm=  affectationModuleRepository.findAllWithModuleByProfesseurId(p.get().getId());
+
+
+        return   suiviModuleRepository.findAllByUserId(user.get().getId());
+
+    }
+
+
+    @GetMapping("/modules/professeur/{sem}")
+    public List<com.planeta.pfum.domain.Module> getAllModulesAffectedToProfsseur(@PathVariable Semestre sem) {
+        log.debug("REST request to get all SuiviModules By professeurs");
+
+
+        Optional<User> user= userRepository.findOneByLogin( SecurityUtils.getCurrentUserLogin().get());
+        Optional<Professeur> p =professeurRepository.findOneByUserId(user.get().getId());
+        List<AffectationModule> afm=  affectationModuleRepository.findAllWithModuleByProfesseurId(p.get().getId());
+
+        List<com.planeta.pfum.domain.Module> modules=new ArrayList<Module>();
+        for(AffectationModule a : afm) {
+            if(a.getModule()!=null && a.getModule().getSemestre()== sem ){
+                modules.add(a.getModule());
+            }
+        }
+        return modules;
+    }
+
+    //JG
 
 }

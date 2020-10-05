@@ -11,12 +11,15 @@ import { IRootState } from 'app/shared/reducers';
 import { IUser } from 'app/shared/model/user.model';
 import { getUsers } from 'app/modules/administration/user-management/user-management.reducer';
 import { IModule } from 'app/shared/model/module.model';
-import { getEntities as getModules } from 'app/entities/module/module.reducer';
+//import { getEntities as getModules } from 'app/entities/module/module.reducer';
 import { getEntity, updateEntity, createEntity, setBlob, reset } from './suivi-module.reducer';
 import { ISuiviModule } from 'app/shared/model/suivi-module.model';
 // tslint:disable-next-line:no-unused-variable
 import { convertDateTimeFromServer, convertDateTimeToServer } from 'app/shared/util/date-utils';
 import { mapIdList } from 'app/shared/util/entity-utils';
+
+//JG
+import { getEntitiesAffectedToProf as getModules } from 'app/entities/module/module.reducer';
 
 export interface ISuiviModuleUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
@@ -84,6 +87,11 @@ export class SuiviModuleUpdate extends React.Component<ISuiviModuleUpdateProps, 
   handleClose = () => {
     this.props.history.push('/entity/suivi-module');
   };
+  //JG
+  filterModules = e => {
+    this.props.getModules(e.target.value);
+  };
+  //JG
 
   render() {
     const { suiviModuleEntity, users, modules, loading, updating } = this.props;
@@ -119,6 +127,7 @@ export class SuiviModuleUpdate extends React.Component<ISuiviModuleUpdateProps, 
                     <Translate contentKey="pfumv10App.suiviModule.semestre">Semestre</Translate>
                   </Label>
                   <AvInput
+                    onChange={this.filterModules}
                     id="suivi-module-semestre"
                     type="select"
                     className="form-control"

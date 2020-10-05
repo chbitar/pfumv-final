@@ -1,8 +1,10 @@
 package com.planeta.pfum.web.rest;
 
 import com.planeta.pfum.domain.Professeur;
+import com.planeta.pfum.domain.User;
 import com.planeta.pfum.repository.ProfesseurRepository;
 import com.planeta.pfum.repository.search.ProfesseurSearchRepository;
+import com.planeta.pfum.service.UserService;
 import com.planeta.pfum.web.rest.errors.BadRequestAlertException;
 
 import io.github.jhipster.web.util.HeaderUtil;
@@ -41,9 +43,12 @@ public class ProfesseurResource {
 
     private final ProfesseurSearchRepository professeurSearchRepository;
 
-    public ProfesseurResource(ProfesseurRepository professeurRepository, ProfesseurSearchRepository professeurSearchRepository) {
+    private final UserService userService;
+
+    public ProfesseurResource(ProfesseurRepository professeurRepository, ProfesseurSearchRepository professeurSearchRepository, UserService userService) {
         this.professeurRepository = professeurRepository;
         this.professeurSearchRepository = professeurSearchRepository;
+        this.userService = userService;
     }
 
     /**
@@ -57,8 +62,14 @@ public class ProfesseurResource {
     public ResponseEntity<Professeur> createProfesseur(@RequestBody Professeur professeur) throws URISyntaxException {
         log.debug("REST request to save Professeur : {}", professeur);
         if (professeur.getId() != null) {
-            throw new BadRequestAlertException("A new professeur cannot already have an ID", ENTITY_NAME, "idexists");
+           throw new BadRequestAlertException("A new professeur cannot already have an ID", ENTITY_NAME, "idexists");
         }
+
+        //Creation d'un compte USER pour se connecter
+        User newUser = userService.createUserForProfreur(professeur);
+        professeur.setUser(newUser);
+        //
+
         Professeur result = professeurRepository.save(professeur);
         professeurSearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/professeurs/" + result.getId()))

@@ -8,7 +8,7 @@ import { byteSize, Translate, translate, ICrudSearchAction, ICrudGetAllAction, T
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
-import { getSearchEntities, getEntities } from './suivi-module.reducer';
+import { getSearchEntities, getEntitiesAffectedToProf } from './suivi-module.reducer';
 import { ISuiviModule } from 'app/shared/model/suivi-module.model';
 // tslint:disable-next-line:no-unused-variable
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
@@ -25,7 +25,7 @@ export class SuiviModule extends React.Component<ISuiviModuleProps, ISuiviModule
   };
 
   componentDidMount() {
-    this.props.getEntities();
+    this.props.getEntitiesAffectedToProf();
   }
 
   search = () => {
@@ -36,7 +36,7 @@ export class SuiviModule extends React.Component<ISuiviModuleProps, ISuiviModule
 
   clear = () => {
     this.setState({ search: '' }, () => {
-      this.props.getEntities();
+      this.props.getEntitiesAffectedToProf();
     });
   };
 
@@ -183,7 +183,7 @@ const mapStateToProps = ({ suiviModule }: IRootState) => ({
 
 const mapDispatchToProps = {
   getSearchEntities,
-  getEntities
+  getEntitiesAffectedToProf
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

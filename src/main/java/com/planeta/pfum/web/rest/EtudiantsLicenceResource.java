@@ -1,7 +1,9 @@
 package com.planeta.pfum.web.rest;
 
 import com.planeta.pfum.domain.EtudiantsLicence;
+import com.planeta.pfum.domain.Filiere;
 import com.planeta.pfum.repository.EtudiantsLicenceRepository;
+import com.planeta.pfum.repository.FiliereRepository;
 import com.planeta.pfum.repository.search.EtudiantsLicenceSearchRepository;
 import com.planeta.pfum.web.rest.errors.BadRequestAlertException;
 
@@ -42,9 +44,12 @@ public class EtudiantsLicenceResource {
 
     private final EtudiantsLicenceSearchRepository etudiantsLicenceSearchRepository;
 
-    public EtudiantsLicenceResource(EtudiantsLicenceRepository etudiantsLicenceRepository, EtudiantsLicenceSearchRepository etudiantsLicenceSearchRepository) {
+    private final FiliereRepository filiereRepository;
+
+    public EtudiantsLicenceResource(EtudiantsLicenceRepository etudiantsLicenceRepository, EtudiantsLicenceSearchRepository etudiantsLicenceSearchRepository, FiliereRepository filiereRepository) {
         this.etudiantsLicenceRepository = etudiantsLicenceRepository;
         this.etudiantsLicenceSearchRepository = etudiantsLicenceSearchRepository;
+        this.filiereRepository = filiereRepository;
     }
 
     /**
@@ -60,7 +65,31 @@ public class EtudiantsLicenceResource {
         if (etudiantsLicence.getId() != null) {
             throw new BadRequestAlertException("A new etudiantsLicence cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        EtudiantsLicence result = etudiantsLicenceRepository.save(etudiantsLicence);
+       EtudiantsLicence result = etudiantsLicenceRepository.save(etudiantsLicence);
+
+        // formatage code etudiant
+        Filiere filiere=  filiereRepository.findById(etudiantsLicence.getFiliere().getId()).get();
+        String ecole = filiere.getEtablissement().getNomEcole();
+
+        String suffixe = "ES20";
+
+        switch (ecole) {
+            case "ESLSCA":
+                suffixe = "ES20" + result.getId();
+                break;
+
+            case "OSTELEA":
+                suffixe = "OS20" + result.getId();
+                break;
+            default:
+                break;
+        }
+        result.setSuffixe(suffixe);
+
+        etudiantsLicenceRepository.save(etudiantsLicence);
+        //
+
+
         etudiantsLicenceSearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/etudiants-licences/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
