@@ -47,7 +47,7 @@ export class CalendrierModule extends React.Component<ICalendrierModuleProps, IC
     return (
       <div>
         <h2 id="calendrier-module-heading">
-          <Translate contentKey="pfumv10App.calendrierModule.home.title">Calendrier Modules</Translate>
+          Calendrier des modules
           <Link to={`${match.url}/new`} className="btn btn-primary float-right jh-create-entity" id="jh-create-entity">
             <FontAwesomeIcon icon="plus" />
             &nbsp;
@@ -83,12 +83,6 @@ export class CalendrierModule extends React.Component<ICalendrierModuleProps, IC
               <thead>
                 <tr>
                   <th>
-                    <Translate contentKey="global.field.id">ID</Translate>
-                  </th>
-                  <th>
-                    <Translate contentKey="pfumv10App.calendrierModule.libelle">Libelle</Translate>
-                  </th>
-                  <th>
                     <Translate contentKey="pfumv10App.calendrierModule.dateControlContinu1">Date Control Continu 1</Translate>
                   </th>
                   <th>
@@ -119,23 +113,23 @@ export class CalendrierModule extends React.Component<ICalendrierModuleProps, IC
                       <TextFormat type="date" value={calendrierModule.dateControlContinu2} format={APP_DATE_FORMAT} />
                     </td>
                     <td>
-                      {calendrierModule.module ? <Link to={`module/${calendrierModule.module.id}`}>{calendrierModule.module.id}</Link> : ''}
+                      {calendrierModule.module ? (
+                        <Link to={`module/${calendrierModule.module.id}`}>{calendrierModule.module.nomModule}</Link>
+                      ) : (
+                        ''
+                      )}
                     </td>
                     <td>
                       {calendrierModule.anneeInscription ? (
-                        <Link to={`annee-inscription/${calendrierModule.anneeInscription.id}`}>{calendrierModule.anneeInscription.id}</Link>
+                        <Link to={`annee-inscription/${calendrierModule.anneeInscription.id}`}>
+                          {calendrierModule.anneeInscription.annee}
+                        </Link>
                       ) : (
                         ''
                       )}
                     </td>
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">
-                        <Button tag={Link} to={`${match.url}/${calendrierModule.id}`} color="info" size="sm">
-                          <FontAwesomeIcon icon="eye" />{' '}
-                          <span className="d-none d-md-inline">
-                            <Translate contentKey="entity.action.view">View</Translate>
-                          </span>
-                        </Button>
                         <Button tag={Link} to={`${match.url}/${calendrierModule.id}/edit`} color="primary" size="sm">
                           <FontAwesomeIcon icon="pencil-alt" />{' '}
                           <span className="d-none d-md-inline">

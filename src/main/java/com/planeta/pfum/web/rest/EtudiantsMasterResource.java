@@ -1,5 +1,6 @@
 package com.planeta.pfum.web.rest;
 
+import com.planeta.pfum.domain.EtudiantsLicence;
 import com.planeta.pfum.domain.EtudiantsMaster;
 import com.planeta.pfum.domain.Filiere;
 import com.planeta.pfum.repository.EtudiantsMasterRepository;
@@ -168,5 +169,14 @@ public class EtudiantsMasterResource {
             .stream(etudiantsMasterSearchRepository.search(queryStringQuery(query)).spliterator(), false)
             .collect(Collectors.toList());
     }
+
+    //CHT
+    @GetMapping("/etudiants-masters/filiere/{fil}")
+    public List<EtudiantsMaster> getAllEtudiantsMasterByFiliere(@PathVariable Filiere fil) {
+        log.debug("REST request to get all etudiants-masters");
+        return etudiantsMasterRepository.findAllByFiliere(fil);
+    }
+
+    //CHT
 
 }

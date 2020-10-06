@@ -21,9 +21,7 @@ export class Home extends React.Component<IHomeProp> {
     return (
       <Row>
         <Col md="9">
-          <h2>
-            <Translate contentKey="home.title">Welcome, Java Hipster!</Translate>
-          </h2>
+          <h2>Bienvenue ,</h2>
           <p className="lead">
             <Translate contentKey="home.subtitle">This is your homepage</Translate>
           </p>
@@ -58,47 +56,12 @@ export class Home extends React.Component<IHomeProp> {
             </div>
           )}
           <p>
-            <Translate contentKey="home.question">If you have any question on JHipster:</Translate>
-          </p>
-
-          <ul>
-            <li>
-              <a href="https://www.jhipster.tech/" target="_blank" rel="noopener noreferrer">
-                <Translate contentKey="home.link.homepage">JHipster homepage</Translate>
-              </a>
-            </li>
-            <li>
-              <a href="http://stackoverflow.com/tags/jhipster/info" target="_blank" rel="noopener noreferrer">
-                <Translate contentKey="home.link.stackoverflow">JHipster on Stack Overflow</Translate>
-              </a>
-            </li>
-            <li>
-              <a href="https://github.com/jhipster/generator-jhipster/issues?state=open" target="_blank" rel="noopener noreferrer">
-                <Translate contentKey="home.link.bugtracker">JHipster bug tracker</Translate>
-              </a>
-            </li>
-            <li>
-              <a href="https://gitter.im/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer">
-                <Translate contentKey="home.link.chat">JHipster public chat room</Translate>
-              </a>
-            </li>
-            <li>
-              <a href="https://twitter.com/java_hipster" target="_blank" rel="noopener noreferrer">
-                <Translate contentKey="home.link.follow">follow @java_hipster on Twitter</Translate>
-              </a>
-            </li>
-          </ul>
-
-          <p>
-            <Translate contentKey="home.like">If you like JHipster, do not forget to give us a star on</Translate>{' '}
-            <a href="https://github.com/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer">
-              Github
-            </a>
-            !
+            ÉCOLE DE MANAGEMENT EN TOURISME Formation de managers, directeurs, et leaders, notamment de l’industrie touristique et hôtelière
+            tant au niveau national qu’international.
           </p>
         </Col>
         <Col md="3" className="pad">
-          <span className="hipster rounded" />
+          <img src="content/images/PLANETA-LOGO.jpg" className="img-circle" alt="User Image" />
         </Col>
       </Row>
     );

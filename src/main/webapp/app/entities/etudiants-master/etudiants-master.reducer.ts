@@ -5,6 +5,7 @@ import { cleanEntity } from 'app/shared/util/entity-utils';
 import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
 
 import { IEtudiantsMaster, defaultValue } from 'app/shared/model/etudiants-master.model';
+import { IEtudiantsLicence } from 'app/shared/model/etudiants-licence.model';
 
 export const ACTION_TYPES = {
   SEARCH_ETUDIANTSMASTERS: 'etudiantsMaster/SEARCH_ETUDIANTSMASTERS',
@@ -160,6 +161,18 @@ export const deleteEntity: ICrudDeleteAction<IEtudiantsMaster> = id => async dis
   dispatch(getEntities());
   return result;
 };
+
+//CHT
+
+export const getEntitiesByFiliere: ICrudGetAction<IEtudiantsMaster> = fil => {
+  const requestUrl = `${apiUrl}/filiere/${fil}`;
+  return {
+    type: ACTION_TYPES.FETCH_ETUDIANTSMASTER_LIST,
+    payload: axios.get<IEtudiantsMaster>(requestUrl)
+  };
+};
+
+//CHT
 
 export const setBlob = (name, data, contentType?) => ({
   type: ACTION_TYPES.SET_BLOB,

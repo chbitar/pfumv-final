@@ -2,6 +2,7 @@ package com.planeta.pfum.web.rest;
 
 import com.planeta.pfum.domain.Etablissement;
 import com.planeta.pfum.domain.EtudiantsExecutif;
+import com.planeta.pfum.domain.EtudiantsMaster;
 import com.planeta.pfum.domain.Filiere;
 import com.planeta.pfum.repository.EtudiantsExecutifRepository;
 import com.planeta.pfum.repository.FiliereRepository;
@@ -169,5 +170,13 @@ public class EtudiantsExecutifResource {
             .stream(etudiantsExecutifSearchRepository.search(queryStringQuery(query)).spliterator(), false)
             .collect(Collectors.toList());
     }
+
+    //CHT
+    @GetMapping("/etudiants-executifs/filiere/{fil}")
+    public List<EtudiantsExecutif> getAllEtudiantsExecutifsByFiliere(@PathVariable Filiere fil) {
+        log.debug("REST request to get all etudiants-executifs");
+        return etudiantsExecutifRepository.findAllByFiliere(fil);
+    }
+    //CHT
 
 }

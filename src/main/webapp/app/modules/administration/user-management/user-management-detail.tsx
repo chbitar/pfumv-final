@@ -19,12 +19,13 @@ export class UserManagementDetail extends React.Component<IUserManagementDetailP
 
   render() {
     const { user } = this.props;
+    // @ts-ignore
     return (
       <div>
         <h2>
           <Translate contentKey="userManagement.detail.title">User</Translate> [<b>{user.login}</b>]
         </h2>
-        <Row size="md">
+        <Row>
           <dl className="jh-entity-details">
             <dt>
               <Translate contentKey="userManagement.login">Login</Translate>

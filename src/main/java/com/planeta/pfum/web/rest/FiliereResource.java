@@ -1,6 +1,9 @@
 package com.planeta.pfum.web.rest;
 
+import com.planeta.pfum.domain.AffectationModule;
+import com.planeta.pfum.domain.Etablissement;
 import com.planeta.pfum.domain.Filiere;
+import com.planeta.pfum.domain.enumeration.Semestre;
 import com.planeta.pfum.repository.FiliereRepository;
 import com.planeta.pfum.repository.search.FiliereSearchRepository;
 import com.planeta.pfum.web.rest.errors.BadRequestAlertException;
@@ -139,6 +142,12 @@ public class FiliereResource {
         return StreamSupport
             .stream(filiereSearchRepository.search(queryStringQuery(query)).spliterator(), false)
             .collect(Collectors.toList());
+    }
+
+    @GetMapping("/filieres/etablissement/{etab}")
+    public List<Filiere> getAllFilieresByEtablissement(@PathVariable Etablissement etab) {
+        log.debug("REST request to get all Filieres");
+        return filiereRepository.findAllByEtablissement(etab);
     }
 
 }

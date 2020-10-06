@@ -304,7 +304,7 @@ export class EtudiantsExecutifUpdate extends React.Component<IEtudiantsExecutifU
                             <div className="card-body">
                               <AvGroup>
                                 <Label id="pjBacLabel" for="etudiants-executif-pjBac">
-                                  <Translate contentKey="pfumv10App.etudiantsExecutif.pjBac">Pj Bac</Translate>
+                                  Type Bac
                                 </Label>
                                 <AvInput
                                   id="etudiants-executif-pjBac"

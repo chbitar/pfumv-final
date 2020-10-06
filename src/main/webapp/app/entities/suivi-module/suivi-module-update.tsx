@@ -114,14 +114,6 @@ export class SuiviModuleUpdate extends React.Component<ISuiviModuleUpdateProps, 
               <p>Loading...</p>
             ) : (
               <AvForm model={isNew ? {} : suiviModuleEntity} onSubmit={this.saveEntity}>
-                {!isNew ? (
-                  <AvGroup>
-                    <Label for="suivi-module-id">
-                      <Translate contentKey="global.field.id">ID</Translate>
-                    </Label>
-                    <AvInput id="suivi-module-id" type="text" className="form-control" name="id" required readOnly />
-                  </AvGroup>
-                ) : null}
                 <AvGroup>
                   <Label id="semestreLabel" for="suivi-module-semestre">
                     <Translate contentKey="pfumv10App.suiviModule.semestre">Semestre</Translate>
@@ -232,21 +224,6 @@ export class SuiviModuleUpdate extends React.Component<ISuiviModuleUpdateProps, 
                   />
                 </AvGroup>
                 <AvGroup>
-                  <Label for="suivi-module-user">
-                    <Translate contentKey="pfumv10App.suiviModule.user">User</Translate>
-                  </Label>
-                  <AvInput id="suivi-module-user" type="select" className="form-control" name="user.id">
-                    <option value="" key="0" />
-                    {users
-                      ? users.map(otherEntity => (
-                          <option value={otherEntity.id} key={otherEntity.id}>
-                            {otherEntity.id}
-                          </option>
-                        ))
-                      : null}
-                  </AvInput>
-                </AvGroup>
-                <AvGroup>
                   <Label for="suivi-module-module">
                     <Translate contentKey="pfumv10App.suiviModule.module">Module</Translate>
                   </Label>
@@ -255,7 +232,7 @@ export class SuiviModuleUpdate extends React.Component<ISuiviModuleUpdateProps, 
                     {modules
                       ? modules.map(otherEntity => (
                           <option value={otherEntity.id} key={otherEntity.id}>
-                            {otherEntity.id}
+                            {otherEntity.nomModule}
                           </option>
                         ))
                       : null}

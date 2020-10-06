@@ -32,6 +32,9 @@ a {
     overflow-y: auto;
     overflow-x: hidden;
     padding: 1rem;
+    border: 1px solid;
+    padding: 10px;
+    box-shadow: 5px 10px 8px 10px #888888;
     .card {
       bapadding: 1rem 1rem 1rem 50px;
     }

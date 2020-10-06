@@ -100,37 +100,26 @@ export class AffectationModule extends React.Component<IAffectationModuleProps, 
               <tbody>
                 {affectationModuleList.map((affectationModule, i) => (
                   <tr key={`entity-${i}`}>
-                    <td>
-                      <Button tag={Link} to={`${match.url}/${affectationModule.id}`} color="link" size="sm">
-                        {affectationModule.id}
-                      </Button>
-                    </td>
                     <td>{affectationModule.annee}</td>
                     <td>
                       <Translate contentKey={`pfumv10App.Semestre.${affectationModule.semestre}`} />
                     </td>
                     <td>
                       {affectationModule.module ? (
-                        <Link to={`module/${affectationModule.module.id}`}>{affectationModule.module.id}</Link>
+                        <Link to={`module/${affectationModule.module.id}`}>{affectationModule.module.nomModule}</Link>
                       ) : (
                         ''
                       )}
                     </td>
                     <td>
                       {affectationModule.professeur ? (
-                        <Link to={`professeur/${affectationModule.professeur.id}`}>{affectationModule.professeur.id}</Link>
+                        <Link to={`professeur/${affectationModule.professeur.id}`}>{affectationModule.professeur.nom}</Link>
                       ) : (
                         ''
                       )}
                     </td>
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">
-                        <Button tag={Link} to={`${match.url}/${affectationModule.id}`} color="info" size="sm">
-                          <FontAwesomeIcon icon="eye" />{' '}
-                          <span className="d-none d-md-inline">
-                            <Translate contentKey="entity.action.view">View</Translate>
-                          </span>
-                        </Button>
                         <Button tag={Link} to={`${match.url}/${affectationModule.id}/edit`} color="primary" size="sm">
                           <FontAwesomeIcon icon="pencil-alt" />{' '}
                           <span className="d-none d-md-inline">

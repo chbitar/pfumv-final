@@ -90,9 +90,7 @@ export class AffectationModuleUpdate extends React.Component<IAffectationModuleU
       <div>
         <Row className="justify-content-center">
           <Col md="8">
-            <h2 id="pfumv10App.affectationModule.home.createOrEditLabel">
-              <Translate contentKey="pfumv10App.affectationModule.home.createOrEditLabel">Create or edit a AffectationModule</Translate>
-            </h2>
+            <h2 id="pfumv10App.affectationModule.home.createOrEditLabel">Créer ou éditer une affectation module-Professeur</h2>
           </Col>
         </Row>
         <Row className="justify-content-center">

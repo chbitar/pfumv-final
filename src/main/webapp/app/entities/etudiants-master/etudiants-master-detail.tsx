@@ -29,8 +29,7 @@ export class EtudiantsMasterDetail extends React.Component<IEtudiantsMasterDetai
               <Col md="6">
                 <span className="badge badge-warning">Informations personnelles</span>
                 <h2>
-                  <Translate contentKey="pfumv10App.etudiantsMaster.detail.title">EtudiantsMaster</Translate> [
-                  <b>{etudiantsMasterEntity.suffixe}</b>]
+                  N° Etudiant : [<b>{etudiantsMasterEntity.suffixe}</b>]
                 </h2>
                 <dl className="jh-entity-details">
                   <dt>
@@ -116,7 +115,7 @@ export class EtudiantsMasterDetail extends React.Component<IEtudiantsMasterDetai
                 <dd>{etudiantsMasterEntity.anneeInscription ? etudiantsMasterEntity.anneeInscription.annee : ''}</dd>
                 <dt>
                   <span id="typeBac">
-                    <Translate contentKey="pfumv10App.etudiantsMaster.typeBac">Type Bac</Translate>
+                    <span id="pjBac">Intitulé d'un bac :</span>
                   </span>
                 </dt>
                 <dd>{etudiantsMasterEntity.typeBac}</dd>
@@ -266,6 +265,12 @@ export class EtudiantsMasterDetail extends React.Component<IEtudiantsMasterDetai
                   <Translate contentKey="pfumv10App.etudiantsMaster.modalite">Modalite</Translate>
                 </dt>
                 <dd>{etudiantsMasterEntity.modalite ? etudiantsMasterEntity.modalite.modalite : ''}</dd>
+                <dd>
+                  <Button color="info">Attestation d'inscription</Button>
+                </dd>
+                <dd>
+                  <Button color="info">Badge</Button>
+                </dd>
               </Col>
             </Row>
           </div>

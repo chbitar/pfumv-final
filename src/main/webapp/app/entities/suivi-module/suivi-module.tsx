@@ -6,7 +6,6 @@ import { AvForm, AvGroup, AvInput } from 'availity-reactstrap-validation';
 // tslint:disable-next-line:no-unused-variable
 import { byteSize, Translate, translate, ICrudSearchAction, ICrudGetAllAction, TextFormat } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 import { IRootState } from 'app/shared/reducers';
 import { getSearchEntities, getEntitiesAffectedToProf } from './suivi-module.reducer';
 import { ISuiviModule } from 'app/shared/model/suivi-module.model';
@@ -83,9 +82,6 @@ export class SuiviModule extends React.Component<ISuiviModuleProps, ISuiviModule
               <thead>
                 <tr>
                   <th>
-                    <Translate contentKey="global.field.id">ID</Translate>
-                  </th>
-                  <th>
                     <Translate contentKey="pfumv10App.suiviModule.semestre">Semestre</Translate>
                   </th>
                   <th>
@@ -107,9 +103,6 @@ export class SuiviModule extends React.Component<ISuiviModuleProps, ISuiviModule
                     <Translate contentKey="pfumv10App.suiviModule.duree">Duree</Translate>
                   </th>
                   <th>
-                    <Translate contentKey="pfumv10App.suiviModule.user">User</Translate>
-                  </th>
-                  <th>
                     <Translate contentKey="pfumv10App.suiviModule.module">Module</Translate>
                   </th>
                   <th />
@@ -118,11 +111,6 @@ export class SuiviModule extends React.Component<ISuiviModuleProps, ISuiviModule
               <tbody>
                 {suiviModuleList.map((suiviModule, i) => (
                   <tr key={`entity-${i}`}>
-                    <td>
-                      <Button tag={Link} to={`${match.url}/${suiviModule.id}`} color="link" size="sm">
-                        {suiviModule.id}
-                      </Button>
-                    </td>
                     <td>
                       <Translate contentKey={`pfumv10App.Semestre.${suiviModule.semestre}`} />
                     </td>
@@ -138,8 +126,7 @@ export class SuiviModule extends React.Component<ISuiviModuleProps, ISuiviModule
                       <TextFormat type="date" value={suiviModule.finCreneau} format={APP_DATE_FORMAT} />
                     </td>
                     <td>{suiviModule.duree}</td>
-                    <td>{suiviModule.user ? suiviModule.user.id : ''}</td>
-                    <td>{suiviModule.module ? <Link to={`module/${suiviModule.module.id}`}>{suiviModule.module.id}</Link> : ''}</td>
+                    <td>{suiviModule.module ? <Link to={`module/${suiviModule.module.id}`}>{suiviModule.module.nomModule}</Link> : ''}</td>
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">
                         <Button tag={Link} to={`${match.url}/${suiviModule.id}`} color="info" size="sm">

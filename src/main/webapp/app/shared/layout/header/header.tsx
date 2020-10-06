@@ -65,11 +65,14 @@ export default class Header extends React.Component<IHeaderProps, IHeaderState> 
           <NavbarToggler aria-label="Menu" onClick={this.toggleMenu} />
           <Collapse isOpen={this.state.menuOpen} navbar>
             <Nav id="header-tabs" className="ml-auto" navbar>
+              <div className="pull-left image">
+                <img src="content/images/ostelea.png" className="img-circle" alt="User Image" />
+              </div>
               <Home />
               {isAuthenticated && <InscriptionsMenu />}
               {isAuthenticated && <ScolariteMenu />}
               {isAuthenticated && <EspaceProfMenu />}
-              {isAuthenticated && <ConfigurationMenu />}
+              {isAuthenticated && isAdmin && <ConfigurationMenu />}
               {isAuthenticated && isAdmin && <AdminMenu showSwagger={isSwaggerEnabled} showDatabase={!isInProduction} />}
               <LocaleMenu currentLocale={currentLocale} onClick={this.handleLocaleChange} />
               <AccountMenu isAuthenticated={isAuthenticated} />

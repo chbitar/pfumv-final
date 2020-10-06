@@ -29,7 +29,7 @@ export class EtudiantsExecutifDetail extends React.Component<IEtudiantsExecutifD
               <Col md="6">
                 <span className="badge badge-warning">Informations personnelles</span>
                 <h2>
-                  Etudiant : [<b>{etudiantsExecutifEntity.suffixe}</b>]
+                  N° Etudiant : [<b>{etudiantsExecutifEntity.suffixe}</b>]
                 </h2>
                 <dl className="jh-entity-details">
                   <dt>
@@ -262,6 +262,12 @@ export class EtudiantsExecutifDetail extends React.Component<IEtudiantsExecutifD
                   <Translate contentKey="pfumv10App.etudiantsExecutif.modalite">Modalite</Translate>
                 </dt>
                 <dd>{etudiantsExecutifEntity.modalite ? etudiantsExecutifEntity.modalite.modalite : ''}</dd>
+                <dd>
+                  <Button color="info">Attestation d'inscription</Button>
+                </dd>
+                <dd>
+                  <Button color="info">Badge</Button>
+                </dd>
               </Col>
             </Row>
           </div>

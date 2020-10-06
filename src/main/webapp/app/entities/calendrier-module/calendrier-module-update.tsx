@@ -100,20 +100,6 @@ export class CalendrierModuleUpdate extends React.Component<ICalendrierModuleUpd
               <p>Loading...</p>
             ) : (
               <AvForm model={isNew ? {} : calendrierModuleEntity} onSubmit={this.saveEntity}>
-                {!isNew ? (
-                  <AvGroup>
-                    <Label for="calendrier-module-id">
-                      <Translate contentKey="global.field.id">ID</Translate>
-                    </Label>
-                    <AvInput id="calendrier-module-id" type="text" className="form-control" name="id" required readOnly />
-                  </AvGroup>
-                ) : null}
-                <AvGroup>
-                  <Label id="libelleLabel" for="calendrier-module-libelle">
-                    <Translate contentKey="pfumv10App.calendrierModule.libelle">Libelle</Translate>
-                  </Label>
-                  <AvField id="calendrier-module-libelle" type="text" name="libelle" />
-                </AvGroup>
                 <AvGroup>
                   <Label id="dateControlContinu1Label" for="calendrier-module-dateControlContinu1">
                     <Translate contentKey="pfumv10App.calendrierModule.dateControlContinu1">Date Control Continu 1</Translate>
@@ -149,7 +135,7 @@ export class CalendrierModuleUpdate extends React.Component<ICalendrierModuleUpd
                     {modules
                       ? modules.map(otherEntity => (
                           <option value={otherEntity.id} key={otherEntity.id}>
-                            {otherEntity.id}
+                            {otherEntity.nomModule}
                           </option>
                         ))
                       : null}
@@ -164,7 +150,7 @@ export class CalendrierModuleUpdate extends React.Component<ICalendrierModuleUpd
                     {anneeInscriptions
                       ? anneeInscriptions.map(otherEntity => (
                           <option value={otherEntity.id} key={otherEntity.id}>
-                            {otherEntity.id}
+                            {otherEntity.annee}
                           </option>
                         ))
                       : null}

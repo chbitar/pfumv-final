@@ -1,17 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { Button, InputGroup, Col, Row, Table } from 'reactstrap';
+import { Button, InputGroup, Col, Row, Table, Label } from 'reactstrap';
 import { AvForm, AvGroup, AvInput } from 'availity-reactstrap-validation';
 // tslint:disable-next-line:no-unused-variable
 import { openFile, byteSize, Translate, translate, ICrudSearchAction, ICrudGetAllAction, TextFormat } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
-import { getSearchEntities, getEntities, updateEntity } from './etudiants-executif.reducer';
+import { getSearchEntities, getEntities, updateEntity, getEntitiesByFiliere } from './etudiants-executif.reducer';
 import { IEtudiantsExecutif } from 'app/shared/model/etudiants-executif.model';
 // tslint:disable-next-line:no-unused-variable
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
+
+import { getEntitie as getEtablissements } from 'app/entities/etablissement/etablissement.reducer';
+import { getEntitie as getFilieres, getEntitiesByEtab } from 'app/entities/filiere/filiere.reducer';
 
 export interface IEtudiantsExecutifProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
 
@@ -26,6 +29,8 @@ export class EtudiantsExecutif extends React.Component<IEtudiantsExecutifProps, 
 
   componentDidMount() {
     this.props.getEntities();
+    this.props.getEtablissements();
+    this.props.getFilieres();
   }
 
   search = () => {
@@ -50,38 +55,101 @@ export class EtudiantsExecutif extends React.Component<IEtudiantsExecutifProps, 
   };
   //===========CHT====================================
 
+  filtrerListFiliereEtab = e => {
+    this.props.getEntitiesByEtab(e.target.value);
+  };
+
+  filtrerListEtudiantByFiliere = e => {
+    this.props.history.push('/entity/etudiants-executif');
+    if (e.target.value === '') this.props.getEntities();
+    else this.props.getEntitiesByFiliere(e.target.value);
+  };
+
   render() {
-    const { etudiantsExecutifList, match } = this.props;
+    const { etudiantsExecutifList, match, etablissements, filieres } = this.props;
     return (
       <div>
         <h2 id="etudiants-executif-heading">
-          <Translate contentKey="pfumv10App.etudiantsExecutif.home.title">Etudiants Executifs</Translate>
+          Liste des étudiants Master executif
           <Link to={`${match.url}/new`} className="btn btn-primary float-right jh-create-entity" id="jh-create-entity">
             <FontAwesomeIcon icon="plus" />
-            &nbsp;
-            <Translate contentKey="pfumv10App.etudiantsExecutif.home.createLabel">Create new Etudiants Executif</Translate>
+            &nbsp; Ajouter étudiant
           </Link>
         </h2>
         <Row>
           <Col sm="12">
             <AvForm onSubmit={this.search}>
-              <AvGroup>
-                <InputGroup>
-                  <AvInput
-                    type="text"
-                    name="search"
-                    value={this.state.search}
-                    onChange={this.handleSearch}
-                    placeholder={translate('pfumv10App.etudiantsExecutif.home.search')}
-                  />
-                  <Button className="input-group-addon">
-                    <FontAwesomeIcon icon="search" />
-                  </Button>
-                  <Button type="reset" className="input-group-addon" onClick={this.clear}>
-                    <FontAwesomeIcon icon="trash" />
-                  </Button>
-                </InputGroup>
-              </AvGroup>
+              <div className="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+                <div className="toast-header">
+                  <strong className="mr-auto">Etat d'inscription</strong>
+                </div>
+                <div className="toast-body">
+                  <AvGroup>
+                    <Label for="filiere-etablissement">
+                      <Translate contentKey="pfumv10App.filiere.etablissement">Etablissement</Translate>
+                    </Label>
+                    <AvInput
+                      id="filiere-etablissement"
+                      type="select"
+                      className="form-control"
+                      name="etablissement.id"
+                      onChange={this.filtrerListFiliereEtab}
+                    >
+                      <option value="" key="0" />
+                      {etablissements
+                        ? etablissements.map(otherEntity => (
+                            <option value={otherEntity.id} key={otherEntity.id}>
+                              {otherEntity.nomEcole}
+                            </option>
+                          ))
+                        : null}
+                    </AvInput>
+                  </AvGroup>
+                  <AvGroup>
+                    <Label for="module-filiere">Filière</Label>
+                    <AvInput
+                      id="module-filiere"
+                      type="select"
+                      className="form-control"
+                      name="filiere.id"
+                      onChange={this.filtrerListEtudiantByFiliere}
+                    >
+                      <option value="" key="0" />
+                      {filieres
+                        ? filieres.map(otherEntity => (
+                            <option value={otherEntity.id} key={otherEntity.id}>
+                              {otherEntity.nomfiliere}
+                            </option>
+                          ))
+                        : null}
+                    </AvInput>
+                  </AvGroup>
+                </div>
+              </div>
+              <div className="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+                <div className="toast-header">
+                  <strong className="mr-auto">Recherche</strong>
+                  <div className="toast-body">
+                    <AvGroup>
+                      <InputGroup>
+                        <AvInput
+                          type="text"
+                          name="search"
+                          value={this.state.search}
+                          onChange={this.handleSearch}
+                          placeholder={translate('pfumv10App.etudiantsExecutif.home.search')}
+                        />
+                        <Button className="input-group-addon">
+                          <FontAwesomeIcon icon="search" />
+                        </Button>
+                        <Button type="reset" className="input-group-addon" onClick={this.clear}>
+                          <FontAwesomeIcon icon="trash" />
+                        </Button>
+                      </InputGroup>
+                    </AvGroup>
+                  </div>
+                </div>
+              </div>
             </AvForm>
           </Col>
         </Row>
@@ -102,16 +170,12 @@ export class EtudiantsExecutif extends React.Component<IEtudiantsExecutifProps, 
                     <Translate contentKey="pfumv10App.etudiantsExecutif.photo">Photo</Translate>
                   </th>
 
-                  <th>
-                    <Translate contentKey="pfumv10App.etudiantsExecutif.inscriptionvalide">Inscriptionvalide</Translate>
-                  </th>
+                  <th>Validité</th>
 
                   <th>
                     <Translate contentKey="pfumv10App.etudiantsExecutif.filiere">Filiere</Translate>
                   </th>
-                  <th>
-                    <Translate contentKey="pfumv10App.etudiantsExecutif.anneeInscription">Annee Inscription</Translate>
-                  </th>
+                  <th>Année scolaire</th>
 
                   <th />
                 </tr>
@@ -202,14 +266,20 @@ export class EtudiantsExecutif extends React.Component<IEtudiantsExecutifProps, 
   }
 }
 
-const mapStateToProps = ({ etudiantsExecutif }: IRootState) => ({
-  etudiantsExecutifList: etudiantsExecutif.entities
+const mapStateToProps = (storeState: IRootState) => ({
+  etudiantsExecutifList: storeState.etudiantsExecutif.entities,
+  etablissements: storeState.etablissement.entities,
+  filieres: storeState.filiere.entities
 });
 
 const mapDispatchToProps = {
   getSearchEntities,
   getEntities,
-  updateEntity
+  updateEntity,
+  getEtablissements,
+  getFilieres,
+  getEntitiesByEtab,
+  getEntitiesByFiliere
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

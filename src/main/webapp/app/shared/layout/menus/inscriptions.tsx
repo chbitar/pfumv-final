@@ -14,30 +14,21 @@ export const InscriptionsMenu = props => (
       Nouvelle inscription
     </MenuItem>
     <MenuItem icon="asterisk" to="/entity/etudiants-licence">
-      Recherche étudiant
-    </MenuItem>
-    <MenuItem icon="asterisk" to="/entity/etudiants-licence">
-      Etats
+      Etat d'inscription
     </MenuItem>
     <Alert variant="success">Master</Alert>
     <MenuItem icon="asterisk" to="/entity/etudiants-master/new">
       Nouvelle inscription
     </MenuItem>
     <MenuItem icon="asterisk" to="/entity/etudiants-master">
-      Recherche étudiant
-    </MenuItem>
-    <MenuItem icon="asterisk" to="/entity/etudiants-master">
-      Etats
+      Etat d'inscription
     </MenuItem>
     <Alert variant="warning">Master executif</Alert>
     <MenuItem icon="asterisk" to="/entity/etudiants-executif/new">
       Nouvelle inscription
     </MenuItem>
     <MenuItem icon="asterisk" to="/entity/etudiants-executif">
-      Recherche étudiant
-    </MenuItem>
-    <MenuItem icon="asterisk" to="/entity/etudiants-executif">
-      Etats
+      Etat d'inscription
     </MenuItem>
   </NavDropdown>
 );

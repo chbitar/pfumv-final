@@ -28,13 +28,10 @@ export class EtudiantsLicenceDetail extends React.Component<IEtudiantsLicenceDet
             <Row>
               <Col md="6">
                 <span className="badge badge-warning">Informations personnelles</span>
+                <h2>
+                  N° Etudiant : [<b>{etudiantsLicenceEntity.suffixe}</b>]
+                </h2>
                 <dl className="jh-entity-details">
-                  <dt>
-                    <span id="suffixe">
-                      <Translate contentKey="pfumv10App.etudiantsLicence.suffixe">Suffixe</Translate>
-                    </span>
-                  </dt>
-                  <dd>{etudiantsLicenceEntity.suffixe}</dd>
                   <dt>
                     <span id="nom">
                       <Translate contentKey="pfumv10App.etudiantsLicence.nom">Nom</Translate>
@@ -111,9 +108,7 @@ export class EtudiantsLicenceDetail extends React.Component<IEtudiantsLicenceDet
                 </dt>
                 <dd>{etudiantsLicenceEntity.anneeInscription ? etudiantsLicenceEntity.anneeInscription.annee : ''}</dd>
                 <dt>
-                  <span id="pjBac">
-                    <Translate contentKey="pfumv10App.etudiantsLicence.pjBac">Pj Bac</Translate>
-                  </span>
+                  <span id="pjBac">Intitulé d'un bac :</span>
                 </dt>
                 <dd>{etudiantsLicenceEntity.pjBac}</dd>
                 <dt>
@@ -242,6 +237,13 @@ export class EtudiantsLicenceDetail extends React.Component<IEtudiantsLicenceDet
                   <Translate contentKey="pfumv10App.etudiantsLicence.modalite">Modalite</Translate>
                 </dt>
                 <dd>{etudiantsLicenceEntity.modalite ? etudiantsLicenceEntity.modalite.modalite : ''}</dd>
+
+                <dd>
+                  <Button color="info">Attestation d'inscription</Button>
+                </dd>
+                <dd>
+                  <Button color="info">Badge</Button>
+                </dd>
               </Col>
             </Row>
           </div>

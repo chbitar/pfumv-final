@@ -299,7 +299,7 @@ export class EtudiantsLicenceUpdate extends React.Component<IEtudiantsLicenceUpd
                             <div className="card-body">
                               <AvGroup>
                                 <Label id="pjBacLabel" for="etudiants-licence-pjBac">
-                                  <Translate contentKey="pfumv10App.etudiantsLicence.pjBac">Pj Bac</Translate>
+                                  Type Bac
                                 </Label>
                                 <AvInput
                                   id="etudiants-licence-pjBac"
@@ -373,17 +373,6 @@ export class EtudiantsLicenceUpdate extends React.Component<IEtudiantsLicenceUpd
                                 </AvInput>
                               </AvGroup>
                             </div>
-                          </div>
-                        </Col>
-                      </Row>
-                    </div>
-
-                    <div>
-                      <Row>
-                        <Col>
-                          <div className="card border-primary">
-                            <div className="card-header">Filiére</div>
-                            <div className="card-body" />
                           </div>
                         </Col>
                       </Row>

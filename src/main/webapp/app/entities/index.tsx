@@ -23,6 +23,8 @@ import NoteLicence from './note-licence';
 import NoteMaster from './note-master';
 import NoteExecutif from './note-executif';
 import TableauDeBoard from './tableau-de-board';
+import { AUTHORITIES } from 'app/config/constants';
+import PrivateRoute from 'app/shared/auth/private-route';
 /* jhipster-needle-add-route-import - JHipster will add routes here */
 
 const Routes = ({ match }) => (
@@ -30,23 +32,63 @@ const Routes = ({ match }) => (
     <Switch>
       {/* prettier-ignore */}
       <ErrorBoundaryRoute path={`${match.url}/absence`} component={Absence} />
-      <ErrorBoundaryRoute path={`${match.url}/affectation-module`} component={AffectationModule} />
-      <ErrorBoundaryRoute path={`${match.url}/annee-inscription`} component={AnneeInscription} />
-      <ErrorBoundaryRoute path={`${match.url}/calendrier-module`} component={CalendrierModule} />
-      <ErrorBoundaryRoute path={`${match.url}/etudiants-executif`} component={EtudiantsExecutif} />
-      <ErrorBoundaryRoute path={`${match.url}/etudiants-licence`} component={EtudiantsLicence} />
-      <ErrorBoundaryRoute path={`${match.url}/etudiants-master`} component={EtudiantsMaster} />
-      <ErrorBoundaryRoute path={`${match.url}/filiere`} component={Filiere} />
-      <ErrorBoundaryRoute path={`${match.url}/module`} component={Module} />
-      <ErrorBoundaryRoute path={`${match.url}/professeur`} component={Professeur} />
-      <ErrorBoundaryRoute path={`${match.url}/suivi-module`} component={SuiviModule} />
-      <ErrorBoundaryRoute path={`${match.url}/etablissement`} component={Etablissement} />
-      <ErrorBoundaryRoute path={`${match.url}/modalite-paiement`} component={ModalitePaiement} />
-      <ErrorBoundaryRoute path={`${match.url}/espace-etudiant`} component={EspaceEtudiant} />
-      <ErrorBoundaryRoute path={`${match.url}/annonce`} component={Annonce} />
-      <ErrorBoundaryRoute path={`${match.url}/note-licence`} component={NoteLicence} />
-      <ErrorBoundaryRoute path={`${match.url}/note-master`} component={NoteMaster} />
-      <ErrorBoundaryRoute path={`${match.url}/note-executif`} component={NoteExecutif} />
+      <PrivateRoute
+        path={`${match.url}/affectation-module`}
+        component={AffectationModule}
+        hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]}
+      />
+      <PrivateRoute
+        path={`${match.url}/annee-inscription`}
+        component={AnneeInscription}
+        hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]}
+      />
+      <PrivateRoute
+        path={`${match.url}/calendrier-module`}
+        component={CalendrierModule}
+        hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]}
+      />
+      <PrivateRoute
+        path={`${match.url}/etudiants-executif`}
+        component={EtudiantsExecutif}
+        hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]}
+      />
+      <PrivateRoute
+        path={`${match.url}/etudiants-licence`}
+        component={EtudiantsLicence}
+        hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]}
+      />
+      <PrivateRoute
+        path={`${match.url}/etudiants-master`}
+        component={EtudiantsMaster}
+        hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]}
+      />
+      <PrivateRoute path={`${match.url}/filiere`} component={Filiere} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]} />
+      <PrivateRoute path={`${match.url}/module`} component={Module} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]} />
+      <PrivateRoute path={`${match.url}/professeur`} component={Professeur} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.PROF]} />
+      <PrivateRoute path={`${match.url}/suivi-module`} component={SuiviModule} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.PROF]} />
+      <PrivateRoute
+        path={`${match.url}/etablissement`}
+        component={Etablissement}
+        hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]}
+      />
+      <PrivateRoute
+        path={`${match.url}/modalite-paiement`}
+        component={ModalitePaiement}
+        hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.FINANCE]}
+      />
+      <PrivateRoute
+        path={`${match.url}/espace-etudiant`}
+        component={EspaceEtudiant}
+        hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]}
+      />
+      <PrivateRoute path={`${match.url}/annonce`} component={Annonce} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]} />
+      <PrivateRoute path={`${match.url}/note-licence`} component={NoteLicence} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.PROF]} />
+      <PrivateRoute path={`${match.url}/note-master`} component={NoteMaster} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.PROF]} />
+      <PrivateRoute
+        path={`${match.url}/note-executif`}
+        component={NoteExecutif}
+        hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.PROF]}
+      />
       <ErrorBoundaryRoute path={`${match.url}/tableau-de-board`} component={TableauDeBoard} />
       {/* jhipster-needle-add-route-path - JHipster will add routes here */}
     </Switch>

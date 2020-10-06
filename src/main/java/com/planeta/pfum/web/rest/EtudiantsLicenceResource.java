@@ -1,7 +1,9 @@
 package com.planeta.pfum.web.rest;
 
+import com.planeta.pfum.domain.AffectationModule;
 import com.planeta.pfum.domain.EtudiantsLicence;
 import com.planeta.pfum.domain.Filiere;
+import com.planeta.pfum.domain.enumeration.Semestre;
 import com.planeta.pfum.repository.EtudiantsLicenceRepository;
 import com.planeta.pfum.repository.FiliereRepository;
 import com.planeta.pfum.repository.search.EtudiantsLicenceSearchRepository;
@@ -167,8 +169,15 @@ public class EtudiantsLicenceResource {
     public List<EtudiantsLicence> searchEtudiantsLicences(@RequestParam String query) {
         log.debug("REST request to search EtudiantsLicences for query {}", query);
         return StreamSupport
-            .stream(etudiantsLicenceSearchRepository.search(queryStringQuery(query)).spliterator(), false)
+           .stream(etudiantsLicenceSearchRepository.search(queryStringQuery(query)).spliterator(), false)
             .collect(Collectors.toList());
     }
+//CHT
+    @GetMapping("/etudiants-licences/filiere/{fil}")
+    public List<EtudiantsLicence> getAllEtudiantsLicencesByFiliere(@PathVariable Filiere fil) {
+        log.debug("REST request to get all etudiants-licences");
+        return etudiantsLicenceRepository.findAllByFiliere(fil);
+    }
 
+//CHT
 }

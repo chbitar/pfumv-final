@@ -1,17 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { Button, InputGroup, Col, Row, Table } from 'reactstrap';
+import { Button, InputGroup, Col, Row, Table, Label } from 'reactstrap';
 import { AvForm, AvGroup, AvInput } from 'availity-reactstrap-validation';
 // tslint:disable-next-line:no-unused-variable
 import { openFile, byteSize, Translate, translate, ICrudSearchAction, ICrudGetAllAction, TextFormat } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
-import { getSearchEntities, getEntities, updateEntity } from './etudiants-licence.reducer';
+
+import { getSearchEntities, getEntities, updateEntity, getEntitiesByFiliere } from './etudiants-licence.reducer';
 import { IEtudiantsLicence } from 'app/shared/model/etudiants-licence.model';
 // tslint:disable-next-line:no-unused-variable
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
+import { getEntitie as getEtablissements } from 'app/entities/etablissement/etablissement.reducer';
+import { getEntitie as getFilieres, getEntitiesByEtab } from 'app/entities/filiere/filiere.reducer';
 
 export interface IEtudiantsLicenceProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
 
@@ -26,6 +29,8 @@ export class EtudiantsLicence extends React.Component<IEtudiantsLicenceProps, IE
 
   componentDidMount() {
     this.props.getEntities();
+    this.props.getEtablissements();
+    this.props.getFilieres();
   }
 
   search = () => {
@@ -51,38 +56,107 @@ export class EtudiantsLicence extends React.Component<IEtudiantsLicenceProps, IE
   };
   //===========CHT====================================
 
+  filtrerListFiliereEtab = e => {
+    this.props.getEntitiesByEtab(e.target.value);
+  };
+
+  filtrerListEtudiantByFiliere = e => {
+    this.props.history.push('/entity/etudiants-licence');
+    if (e.target.value === '') this.props.getEntities();
+    else this.props.getEntitiesByFiliere(e.target.value);
+  };
+
   render() {
-    const { etudiantsLicenceList, match } = this.props;
+    const { etudiantsLicenceList, match, etablissements, filieres } = this.props;
     return (
       <div>
         <h2 id="etudiants-licence-heading">
-          <Translate contentKey="pfumv10App.etudiantsLicence.home.title">Etudiants Licences</Translate>
+          Liste des étudiants Licence
           <Link to={`${match.url}/new`} className="btn btn-primary float-right jh-create-entity" id="jh-create-entity">
             <FontAwesomeIcon icon="plus" />
-            &nbsp;
-            <Translate contentKey="pfumv10App.etudiantsLicence.home.createLabel">Create new Etudiants Licence</Translate>
+            &nbsp; Ajouter étudiant
           </Link>
         </h2>
         <Row>
           <Col sm="12">
             <AvForm onSubmit={this.search}>
-              <AvGroup>
-                <InputGroup>
-                  <AvInput
-                    type="text"
-                    name="search"
-                    value={this.state.search}
-                    onChange={this.handleSearch}
-                    placeholder={translate('pfumv10App.etudiantsLicence.home.search')}
-                  />
-                  <Button className="input-group-addon">
-                    <FontAwesomeIcon icon="search" />
+              <div className="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+                <div className="toast-header">
+                  <strong className="mr-auto">Etat d'inscription</strong>
+                </div>
+                <div className="toast-body">
+                  <AvGroup>
+                    <Label for="filiere-etablissement">
+                      <Translate contentKey="pfumv10App.filiere.etablissement">Etablissement</Translate>
+                    </Label>
+                    <AvInput
+                      id="filiere-etablissement"
+                      type="select"
+                      className="form-control"
+                      name="etablissement.id"
+                      onChange={this.filtrerListFiliereEtab}
+                    >
+                      <option value="" key="0" />
+                      {etablissements
+                        ? etablissements.map(otherEntity => (
+                            <option value={otherEntity.id} key={otherEntity.id}>
+                              {otherEntity.nomEcole}
+                            </option>
+                          ))
+                        : null}
+                    </AvInput>
+                  </AvGroup>
+                  <AvGroup>
+                    <Label for="module-filiere">Filière</Label>
+                    <AvInput
+                      id="module-filiere"
+                      type="select"
+                      className="form-control"
+                      name="filiere.id"
+                      onChange={this.filtrerListEtudiantByFiliere}
+                    >
+                      <option value="" key="0" />
+                      {filieres
+                        ? filieres.map(otherEntity => (
+                            <option value={otherEntity.id} key={otherEntity.id}>
+                              {otherEntity.nomfiliere}
+                            </option>
+                          ))
+                        : null}
+                    </AvInput>
+                  </AvGroup>
+                  <Button color="warning" size="sm">
+                    <FontAwesomeIcon icon="print" /> <span className="d-none d-md-inline">PDF</span>
                   </Button>
-                  <Button type="reset" className="input-group-addon" onClick={this.clear}>
-                    <FontAwesomeIcon icon="trash" />
+                  <Button color="success" size="sm">
+                    <FontAwesomeIcon icon="print" /> <span className="d-none d-md-inline">XLS</span>
                   </Button>
-                </InputGroup>
-              </AvGroup>
+                </div>
+              </div>
+              <div className="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+                <div className="toast-header">
+                  <strong className="mr-auto">Recherche</strong>
+                </div>
+                <div className="toast-body">
+                  <AvGroup>
+                    <InputGroup>
+                      <AvInput
+                        type="text"
+                        name="search"
+                        value={this.state.search}
+                        onChange={this.handleSearch}
+                        placeholder={translate('pfumv10App.etudiantsLicence.home.search')}
+                      />
+                      <Button className="input-group-addon">
+                        <FontAwesomeIcon icon="search" />
+                      </Button>
+                      <Button type="reset" className="input-group-addon" onClick={this.clear}>
+                        <FontAwesomeIcon icon="trash" />
+                      </Button>
+                    </InputGroup>
+                  </AvGroup>
+                </div>
+              </div>
             </AvForm>
           </Col>
         </Row>
@@ -198,14 +272,20 @@ export class EtudiantsLicence extends React.Component<IEtudiantsLicenceProps, IE
   }
 }
 
-const mapStateToProps = ({ etudiantsLicence }: IRootState) => ({
-  etudiantsLicenceList: etudiantsLicence.entities
+const mapStateToProps = (storeState: IRootState) => ({
+  etudiantsLicenceList: storeState.etudiantsLicence.entities,
+  etablissements: storeState.etablissement.entities,
+  filieres: storeState.filiere.entities
 });
 
 const mapDispatchToProps = {
   getSearchEntities,
   getEntities,
-  updateEntity
+  updateEntity,
+  getEtablissements,
+  getFilieres,
+  getEntitiesByEtab,
+  getEntitiesByFiliere
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

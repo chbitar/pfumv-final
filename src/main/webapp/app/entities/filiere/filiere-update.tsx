@@ -81,9 +81,7 @@ export class FiliereUpdate extends React.Component<IFiliereUpdateProps, IFiliere
       <div>
         <Row className="justify-content-center">
           <Col md="8">
-            <h2 id="pfumv10App.filiere.home.createOrEditLabel">
-              <Translate contentKey="pfumv10App.filiere.home.createOrEditLabel">Create or edit a Filiere</Translate>
-            </h2>
+            <h2 id="pfumv10App.filiere.home.createOrEditLabel">Ajouter pu éditer une filière</h2>
           </Col>
         </Row>
         <Row className="justify-content-center">
@@ -92,17 +90,9 @@ export class FiliereUpdate extends React.Component<IFiliereUpdateProps, IFiliere
               <p>Loading...</p>
             ) : (
               <AvForm model={isNew ? {} : filiereEntity} onSubmit={this.saveEntity}>
-                {!isNew ? (
-                  <AvGroup>
-                    <Label for="filiere-id">
-                      <Translate contentKey="global.field.id">ID</Translate>
-                    </Label>
-                    <AvInput id="filiere-id" type="text" className="form-control" name="id" required readOnly />
-                  </AvGroup>
-                ) : null}
                 <AvGroup>
                   <Label id="nomfiliereLabel" for="filiere-nomfiliere">
-                    <Translate contentKey="pfumv10App.filiere.nomfiliere">Nomfiliere</Translate>
+                    Nom filière
                   </Label>
                   <AvField id="filiere-nomfiliere" type="text" name="nomfiliere" />
                 </AvGroup>
@@ -114,7 +104,7 @@ export class FiliereUpdate extends React.Component<IFiliereUpdateProps, IFiliere
                 </AvGroup>
                 <AvGroup>
                   <Label id="accreditaionLabel" for="filiere-accreditaion">
-                    <Translate contentKey="pfumv10App.filiere.accreditaion">Accreditaion</Translate>
+                    Accréditation
                   </Label>
                   <AvField id="filiere-accreditaion" type="text" name="accreditaion" />
                 </AvGroup>
@@ -143,7 +133,7 @@ export class FiliereUpdate extends React.Component<IFiliereUpdateProps, IFiliere
                     {etablissements
                       ? etablissements.map(otherEntity => (
                           <option value={otherEntity.id} key={otherEntity.id}>
-                            {otherEntity.id}
+                            {otherEntity.nomEcole}
                           </option>
                         ))
                       : null}

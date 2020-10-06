@@ -87,14 +87,6 @@ export class ProfesseurUpdate extends React.Component<IProfesseurUpdateProps, IP
               <p>Loading...</p>
             ) : (
               <AvForm model={isNew ? {} : professeurEntity} onSubmit={this.saveEntity}>
-                {!isNew ? (
-                  <AvGroup>
-                    <Label for="professeur-id">
-                      <Translate contentKey="global.field.id">ID</Translate>
-                    </Label>
-                    <AvInput id="professeur-id" type="text" className="form-control" name="id" required readOnly />
-                  </AvGroup>
-                ) : null}
                 <AvGroup>
                   <Label id="nomLabel" for="professeur-nom">
                     <Translate contentKey="pfumv10App.professeur.nom">Nom</Translate>
@@ -142,21 +134,6 @@ export class ProfesseurUpdate extends React.Component<IProfesseurUpdateProps, IP
                     <Translate contentKey="pfumv10App.professeur.email">Email</Translate>
                   </Label>
                   <AvField id="professeur-email" type="text" name="email" />
-                </AvGroup>
-                <AvGroup>
-                  <Label for="professeur-user">
-                    <Translate contentKey="pfumv10App.professeur.user">User</Translate>
-                  </Label>
-                  <AvInput id="professeur-user" type="select" className="form-control" name="user.id">
-                    <option value="" key="0" />
-                    {users
-                      ? users.map(otherEntity => (
-                          <option value={otherEntity.id} key={otherEntity.id}>
-                            {otherEntity.id}
-                          </option>
-                        ))
-                      : null}
-                  </AvInput>
                 </AvGroup>
                 <Button tag={Link} id="cancel-save" to="/entity/professeur" replace color="info">
                   <FontAwesomeIcon icon="arrow-left" />
